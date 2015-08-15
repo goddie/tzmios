@@ -20,4 +20,14 @@
     // Configure the view for the selected state
 }
 
+-(void)isOpen:(NSInteger)open
+{
+    if (open==1) {
+        [self.btnIsOpen setBackgroundImage:[UIImage imageNamed:@"iconChecked.png"] forState:UIControlStateNormal];
+    }
+    
+    if (open==0) {
+        [self.btnIsOpen setBackgroundImage:[UIImage imageNamed:@"iconUnChecked.png"] forState:UIControlStateNormal];
+    }
+}
 @end

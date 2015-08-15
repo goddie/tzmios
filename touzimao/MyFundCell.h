@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseTableViewCell.h"
+#import "MyButton.h"
 
-@interface MyFundCell : UITableViewCell
+@interface MyFundCell : BaseTableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *txtName;
 @property (weak, nonatomic) IBOutlet UILabel *txtYesterday;
 
 @property (weak, nonatomic) IBOutlet UILabel *txtMyFollow;
-@property (weak, nonatomic) IBOutlet UIImageView *imgOpen;
+ 
 @property (weak, nonatomic) IBOutlet UILabel *txtHold;
 
 @property (weak, nonatomic) IBOutlet UILabel *txtIncome;
@@ -24,5 +27,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *txtFollowMe;
 
+-(void)isOpen:(NSInteger)open;
+
+@property (weak, nonatomic) IBOutlet MyButton *btnIsOpen;
 
 @end

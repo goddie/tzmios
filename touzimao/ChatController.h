@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ChatController : UITableViewController
+@interface ChatController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) NSString *from;
 
 @property (nonatomic, strong) NSString *sendTo;
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *botView;
 
 @end

@@ -17,5 +17,7 @@
 
 -(void)changeRoot;
 
+-(void)changeReg;
+
 @end
 

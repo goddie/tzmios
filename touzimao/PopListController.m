@@ -13,16 +13,14 @@
 #import "MTLJSONAdapter.h"
 #import "User.h"
 #import "TradeListController.h"
+#import "LoginUtil.h"
 
 @interface PopListController ()
 
 @end
 
 @implementation PopListController
-{
-    NSMutableArray *dataArr;
-    NSNumber *curPage;
-}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,11 +32,14 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.title = @"红人圈";
-    
-    self.tableView.delaysContentTouches = NO;
-    
+
     dataArr = [NSMutableArray arrayWithCapacity:10];
     curPage = [NSNumber numberWithInt:1];
+    
+    if (uuid.length==0) {
+        [LoginUtil getLocalUUID];
+    }
+    
     [self loadData];
 }
 
@@ -46,6 +47,9 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
 
 
 -(void)loadData
@@ -85,10 +89,29 @@
 }
 
 
--(void)btnBuyClick:(id)sender
+-(void)btnBuyClick:(MyButton*)sender
 {
+    NSString *data = (NSString *)sender.data;
+    
     TradeListController *c1 = [[TradeListController alloc] initWithNibName:@"TradeListController" bundle:nil];
+    c1.fid = data;
     [self.navigationController pushViewController:c1 animated:YES];
+}
+
+-(UIView*)addSearchBar
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
+    UISearchBar *search = [[UISearchBar alloc] initWithFrame:view.frame];
+    
+    [view addSubview:search];
+    
+    return view;
+}
+
+-(void)followBuy:(UIButton*)btn
+{
+    NSLog(@"123");
+    
 }
 
 #pragma mark - Table view data source
@@ -120,7 +143,7 @@
     cell.txtFollows.text = [u.followBuy stringValue];
     cell.txtTotal.text = [NSString stringWithFormat:@"%@%%",[u.totalRate stringValue]];
     cell.txtPercent.text = [NSString stringWithFormat:@"%@%%",[u.yearRate stringValue]];
-    
+    cell.btnBuy.data  = u.uuid;
     
     [cell.btnBuy addTarget:self action:@selector(btnBuyClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -130,6 +153,16 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 150.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [self addSearchBar];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return  50.0f;
 }
 
 
@@ -145,76 +178,14 @@
     
     [self.navigationController pushViewController:controller animated:YES];
     
-    cell.btnBuy.tag  = (int)cell.txtName.text;
+//    cell.btnBuy.tag  = (int)cell.txtName.text;
     
-    [cell.btnBuy addTarget:self action:@selector(followBuy:) forControlEvents:UIControlEventTouchUpInside];
+    //[cell.btnBuy addTarget:self action:@selector(followBuy:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
--(void)followBuy:(UIButton*)btn
-{
-    NSLog(@"123");
-    
-}
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseTableViewCell.h"
+#import "MyButton.h"
 
 @interface PopListCell : BaseTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *txtName;
@@ -18,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtTotal;
 @property (weak, nonatomic) IBOutlet UILabel *txtFollows;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnBuy;
+@property (weak, nonatomic) IBOutlet MyButton *btnBuy;
 
 
 @end

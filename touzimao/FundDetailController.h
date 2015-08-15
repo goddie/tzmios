@@ -10,4 +10,6 @@
 
 @interface FundDetailController : UITableViewController
 @property (nonatomic, strong) NSString *uuid;
+@property (nonatomic, strong) NSString *fid;
+
 @end

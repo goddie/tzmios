@@ -11,19 +11,18 @@
 #import "AFNetworking.h"
 #import "LoginUtil.h"
 #import "User.h"
+#import "RegOneController.h"
 
 @interface EnterController ()
 
 @end
 
 @implementation EnterController
-{
-    NSString *uuid;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
  
+    self.title = @"投资猫";
     
     
     CALayer *mask = [CALayer layer];
@@ -34,12 +33,21 @@
     self.img1.layer.masksToBounds = YES;
     self.img1.image = [UIImage imageNamed:@"header.png"];
     
-    uuid = [LoginUtil getLocalUUID];
+    self.uuid = [LoginUtil getLocalUUID];
     
-    if (uuid.length>0) {
+    if (self.uuid != nil) {
         [self loadData];
+    }else
+    {
+        RegOneController *c1 = [[RegOneController alloc] initWithNibName:@"RegOneController" bundle:nil];
+        [self.navigationController pushViewController:c1 animated:YES];
     }
     
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.uuid = [LoginUtil getLocalUUID];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,9 +90,18 @@
 
 - (IBAction)btn1Click:(id)sender {
     
+    if (self.uuid==nil) {
+        [self openReg];
+        
+        return;
+    }
+    
+    
+    
     if (self.uuid.length>0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"openAdvise" object:self.uuid];
     }
+    
     
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate changeRoot];
@@ -93,11 +110,23 @@
 
 - (IBAction)btn2Click:(id)sender {
     
+    if (self.uuid==nil) {
+        [self openReg];
+        
+        return;
+    }
+    
+    
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate changeRoot];
 }
 
 
+-(void)openReg
+{
+    RegOneController *c1 = [[RegOneController alloc] initWithNibName:@"RegOneController" bundle:nil];
+    [self.navigationController pushViewController:c1 animated:YES];
+}
 
 
 @end

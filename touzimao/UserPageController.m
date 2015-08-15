@@ -12,6 +12,7 @@
 #import "User.h"
 #import "LoginUtil.h"
 #import "ChatController.h"
+#import "JSQChat.h"
 
 @interface UserPageController ()
 
@@ -35,6 +36,11 @@
     self.img1.layer.masksToBounds = YES;
     self.img1.image = [UIImage imageNamed:@"header.png"];
     
+    
+    if ([LoginUtil hasFollow:self.uuid]) {
+         self.txtFollow.text = @"已关注";
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,12 +49,15 @@
 }
 
 
+
+
 -(void)img1Click:(id)sender
 {
     
 
     
 }
+
 /*
 #pragma mark - Navigation
 
@@ -88,17 +97,23 @@
         NSLog(@"Error: %@", error);
     }];
 }
+
 - (IBAction)btnChatClick:(id)sender {
+
+    JSQChat *c1 = [[JSQChat alloc] initWithNibName:@"JSQChat" bundle:nil];
     
     
-    ChatController *c1 = [[ChatController alloc] initWithNibName:@"ChatController" bundle:nil];
-    c1.sendTo = [LoginUtil getLocalUUID];
-    c1.from = self.uuid;
+    c1.hidesBottomBarWhenPushed = YES;
+    
+//    ChatController *c1 = [[ChatController alloc] initWithNibName:@"ChatController" bundle:nil];
+//    c1.sendTo = self.uuid;
+//    c1.from =[LoginUtil getLocalUUID];
     
     [self.navigationController pushViewController:c1 animated:YES];
     
     
 }
+
 - (IBAction)btnFollowClick:(id)sender {
     
     NSString *userId = [LoginUtil getLocalUUID];
@@ -120,6 +135,10 @@
             UIAlertView *alert =[ [UIAlertView alloc] initWithTitle:[dict objectForKey:@"msg"] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             
             [alert show];
+            
+            self.txtFollow.text = @"已关注";
+            
+            [LoginUtil addFollowData:self.uuid];
             
         }
         

@@ -36,6 +36,7 @@
              @"info":@"info",
              @"pubDate":@"pubDate",
              @"code":@"code"
+             
              };
 }
 

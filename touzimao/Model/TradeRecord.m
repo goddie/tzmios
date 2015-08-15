@@ -25,7 +25,8 @@
              @"agreeBuy":@"agreeBuy",
              @"isShow":@"isShow",
              @"synBuy":@"synBuy",
-             @"synSell":@"synSell"
+             @"synSell":@"synSell",
+             @"hasFans":@"hasFans"
              };
 }
 

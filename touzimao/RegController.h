@@ -14,5 +14,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn1;
 - (IBAction)btn1Click:(id)sender;
  
+@property (weak, nonatomic) IBOutlet UIButton *btn2;
+
+- (IBAction)btn2Click:(id)sender;
+
 
 @end

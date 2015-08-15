@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GlobalUtil.h"
 #import "AppDelegate.h"
+#import "MyButton.h"
 
 @implementation GlobalUtil: NSObject
 
@@ -137,14 +138,25 @@
 
 +(void) addButtonToView:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSInteger)data;
 {
-    UIButton *btn = [[UIButton alloc] initWithFrame:touchView.frame];
-    [[touchView superview] addSubview:btn];
-    
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, touchView.frame.size.width, touchView.frame.size.height)];
+    [touchView addSubview:btn];
+    touchView.userInteractionEnabled=YES;
     btn.backgroundColor = [UIColor yellowColor];
     
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     [btn setTitle:@"" forState:UIControlStateNormal];
     [btn setTag:data];
+}
+
++(void) addButton:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSObject*)data;
+{
+    MyButton *btn = [[MyButton alloc] initWithFrame:CGRectMake(0, 0, touchView.frame.size.width, touchView.frame.size.height)];
+    [touchView addSubview:btn];
+    touchView.userInteractionEnabled=YES;
+    //btn.backgroundColor = [UIColor yellowColor];
+    [btn setData:data];
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    [btn setTitle:@"" forState:UIControlStateNormal];
 }
 
 

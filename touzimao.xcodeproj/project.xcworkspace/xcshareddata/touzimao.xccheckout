@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1DFF545F-DF41-428A-ACF8-22DF3E1568E5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>touzimao</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>193A27760D6A58CB564613586EB370570D6FC12E</key>
+		<string>https://github.com/goddie/tzmios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>touzimao.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>193A27760D6A58CB564613586EB370570D6FC12E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/goddie/tzmios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>193A27760D6A58CB564613586EB370570D6FC12E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>193A27760D6A58CB564613586EB370570D6FC12E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>tzmios</string>
+		</dict>
+	</array>
+</dict>
+</plist>

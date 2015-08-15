@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface PopListController : UITableViewController
+{
+    NSMutableArray *dataArr;
+    NSNumber *curPage;
+    NSString *uuid;
+}
 
 @end

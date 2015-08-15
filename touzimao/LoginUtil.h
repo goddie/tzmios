@@ -20,7 +20,10 @@
 
 +(void)saveLocalUUID:(User*)user;
 
-
 +(void)clearLocal;
+
++(void)addFollowData:(NSString*)uuid;
+
++(BOOL)hasFollow:(NSString*)uuid;
 
 @end

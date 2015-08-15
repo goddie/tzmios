@@ -19,6 +19,7 @@
 @implementation ContactListController
 {
     NSMutableArray *addressBookTemp;
+    NSNumber *type;
 }
 
 
@@ -34,6 +35,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.title = @"通讯录";
+    type = [NSNumber numberWithInt:0];
+    [self segAdd];
     
     addressBookTemp = [NSMutableArray array];
     
@@ -44,6 +47,49 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+-(void)segAdd
+{
+    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"小猫推荐",@"关注",@"粉丝",nil];
+    //初始化UISegmentedControl
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc]initWithItems:segmentedArray];
+    //segmentedControl.frame = CGRectMake(1.0, [UIScreen mainScreen].bounds.size.height-50-64, 318.0, 30.0);
+    segmentedControl.frame = CGRectMake(0, 0, 240.0f, 30.0f);
+    segmentedControl.selectedSegmentIndex = 0;//设置默认选择项索引
+    //[segmentedControl setBackgroundImage:[UIImage imageNamed:@"zyyy_choose_middle.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    //[segmentedControl setBackgroundImage:[UIImage imageNamed:@"zyyy_choose_middle_touch.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    //segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;//设置样式
+    [segmentedControl addTarget:self action:@selector(segmentAction:)forControlEvents:UIControlEventValueChanged];  //添加委托方法
+    [self.view addSubview:segmentedControl];
+    
+    self.navigationItem.titleView = segmentedControl;
+}
+
+
+-(void)segmentAction:(UISegmentedControl *)Seg{
+    
+    NSInteger Index = Seg.selectedSegmentIndex;
+    
+    //NSLog(@"Index %d", Index);
+    
+    switch (Index) {
+            
+        case 0:
+            type = [NSNumber numberWithInt:0];
+            
+            break;
+        case 1:
+            type = [NSNumber numberWithInt:2];
+            break;
+        case 2:
+            type = [NSNumber numberWithInt:1];
+            break;
+    }
+    //[self loadData];
+}
+
 
 
 -(void)getMyContact

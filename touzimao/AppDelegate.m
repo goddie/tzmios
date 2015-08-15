@@ -10,6 +10,8 @@
 #import "MainController.h"
 #import "EnterController.h"
 #import "LoginUtil.h"
+#import "RegOneController.h"
+#import "IQKeyboardManager.h"
 
 @interface AppDelegate ()
 
@@ -35,10 +37,9 @@
     
     //a.初始化一个tabBar控制器
     EnterController *ec = [[EnterController alloc] initWithNibName:@"EnterController" bundle:nil];
-    self.window.rootViewController = ec;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:ec];
     
-
-    
+    self.window.rootViewController = nav;
     //设置控制器为Window的根控制器
     //self.window.rootViewController=tb;
     
@@ -47,6 +48,14 @@
     
     
     [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    
+    
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = NO;
+    manager.enableAutoToolbar = NO;
     
     return YES;
 }
@@ -85,7 +94,17 @@
     self.window.rootViewController = mainController;
 }
 
-
+-(void)changeReg
+{
+    
+    RegOneController *c1 = [[RegOneController alloc] initWithNibName:@"RegOneController" bundle:nil];
+    UINavigationController *nav  = [[UINavigationController alloc] initWithRootViewController:c1];
+    [self.window addSubview:mainController.view];
+    
+    [self.window.rootViewController.view removeFromSuperview];
+    
+    self.window.rootViewController = nav;
+}
 
 
 #pragma mark - UITabBarController

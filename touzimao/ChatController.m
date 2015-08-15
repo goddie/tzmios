@@ -31,6 +31,11 @@
     self.title = @"聊天";
     
     footer = [[ChatSendController alloc] initWithNibName:@"ChatSendController" bundle:nil];
+    [self addChildViewController:footer];
+    
+    [self.botView addSubview:footer.view];
+    
+//    self.tableView.tableFooterView = footer.view;
     
     [footer.btn1 addTarget:self action:@selector(sendClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -165,15 +170,15 @@
 }
 
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    return footer.view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 50.0f;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    return footer.view;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    return 50.0f;
+//}
 
 
 @end

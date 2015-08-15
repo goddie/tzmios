@@ -33,6 +33,8 @@
     //NSString *username=[mySettingData objectForKey:@"User"];
     
     [mySettingData setObject:user.username forKey:@"User"];
+    
+    [mySettingData synchronize];
 }
 
 +(void)saveLocalUUID:(User*)user
@@ -42,12 +44,43 @@
     
     [mySettingData setObject:user.uuid forKey:@"UUID"];
     
+    [mySettingData synchronize];
+    
 }
 
 +(void)clearLocal
 {
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+}
+
++(void)addFollowData:(NSString*)uuid
+{
+    NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+    NSArray *a = (NSArray*)[mySettingData objectForKey:@"Follow"];
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:a];
+
+    
+    if (![arr containsObject:uuid]) {
+        [arr addObject:uuid];
+    }
+    
+    [mySettingData setObject:arr forKey:@"Follow"];
+    
+}
+
++(BOOL)hasFollow:(NSString*)uuid
+{
+    NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *arr = [mySettingData objectForKey:@"Follow"];
+    
+    if ([arr containsObject:uuid]) {
+        return YES;
+    }
+    
+    
+    return NO;
 }
 
 @end

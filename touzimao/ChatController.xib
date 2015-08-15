@@ -3,22 +3,46 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatController">
             <connections>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="botView" destination="UrF-wu-6zT" id="e0m-Q7-JQs"/>
+                <outlet property="tableView" destination="4Yn-03-eLi" id="SMZ-n1-jJZ"/>
+                <outlet property="view" destination="UYY-09-Wo2" id="dw4-rx-Epl"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="i5M-Pr-FkT">
+        <view contentMode="scaleToFill" id="UYY-09-Wo2">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UrF-wu-6zT">
+                    <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4Yn-03-eLi">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="548"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="SNG-xL-BTb"/>
+                        <outlet property="delegate" destination="-1" id="1hz-45-sJD"/>
+                    </connections>
+                </tableView>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <connections>
-                <outlet property="dataSource" destination="-1" id="Tng-2m-Rnh"/>
-                <outlet property="delegate" destination="-1" id="9aC-8N-iBw"/>
-            </connections>
-        </tableView>
+            <constraints>
+                <constraint firstItem="UrF-wu-6zT" firstAttribute="leading" secondItem="4Yn-03-eLi" secondAttribute="leading" id="9XZ-te-gBD"/>
+                <constraint firstItem="UrF-wu-6zT" firstAttribute="top" secondItem="4Yn-03-eLi" secondAttribute="bottom" constant="8" symbolic="YES" id="Hp9-8e-qRX"/>
+                <constraint firstItem="4Yn-03-eLi" firstAttribute="top" secondItem="UYY-09-Wo2" secondAttribute="top" id="I1k-M4-FdJ"/>
+                <constraint firstItem="4Yn-03-eLi" firstAttribute="leading" secondItem="UYY-09-Wo2" secondAttribute="leading" id="Il9-X6-N1U"/>
+                <constraint firstAttribute="bottom" secondItem="4Yn-03-eLi" secondAttribute="bottom" constant="52" id="UsJ-M3-dtt"/>
+                <constraint firstItem="UrF-wu-6zT" firstAttribute="trailing" secondItem="4Yn-03-eLi" secondAttribute="trailing" id="oIs-gJ-elh"/>
+                <constraint firstItem="4Yn-03-eLi" firstAttribute="trailing" secondItem="UYY-09-Wo2" secondAttribute="trailingMargin" constant="8" id="uSK-yr-uWL"/>
+                <constraint firstAttribute="bottom" secondItem="UrF-wu-6zT" secondAttribute="bottom" id="wcW-AN-5oo"/>
+            </constraints>
+            <point key="canvasLocation" x="504" y="289"/>
+        </view>
     </objects>
 </document>

@@ -57,9 +57,15 @@
     
     tradeRecord = [TradeRecord new];
     
+    
     if (self.uuid.length>0) {
         [self loadData];
     }
+    
+    if (self.fid == nil) {
+        self.fid=@"";
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -134,6 +140,7 @@
     NSDictionary *parameters = @{
                                  @"pid":self.uuid,
                                  @"uid":[LoginUtil getLocalUUID],
+                                 @"fid":self.fid,
                                  @"amount":[tradeRecord.amount stringValue],
                                  @"optName":@"买进",
                                  @"agreeBuy":[tradeRecord.agreeBuy stringValue],

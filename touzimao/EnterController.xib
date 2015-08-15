@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
@@ -21,22 +20,22 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topbg.png" translatesAutoresizingMaskIntoConstraints="NO" id="zp6-T3-Uac">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="297"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="180"/>
                     <color key="backgroundColor" red="0.88627450980392153" green="0.23529411764705882" blue="0.27450980392156865" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="600" id="DN6-y0-g6B"/>
-                        <constraint firstAttribute="height" constant="297" id="hfI-MA-AVi"/>
+                        <constraint firstAttribute="height" constant="180" id="hfI-MA-AVi"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mask.png" translatesAutoresizingMaskIntoConstraints="NO" id="ewC-ab-Gvb">
-                    <rect key="frame" x="164" y="342" width="80" height="80"/>
+                    <rect key="frame" x="164" y="225" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="Txs-TD-YLv"/>
                         <constraint firstAttribute="width" constant="80" id="sWx-r3-Jxg"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="黄晓明" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cK3-5v-I6Z">
-                    <rect key="frame" x="258" y="350" width="201" height="35"/>
+                    <rect key="frame" x="258" y="233" width="201" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="RTg-Yd-Ij1"/>
                         <constraint firstAttribute="width" constant="201" id="hqB-mt-ZPZ"/>
@@ -46,7 +45,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="昨日收益" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9W-ro-WpJ">
-                    <rect key="frame" x="258" y="393" width="72" height="21"/>
+                    <rect key="frame" x="258" y="276" width="72" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="72" id="379-mT-mzj"/>
                         <constraint firstAttribute="height" constant="21" id="jf8-oX-7f3"/>
@@ -56,7 +55,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23.5%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jHv-Er-UAJ">
-                    <rect key="frame" x="338" y="393" width="72" height="21"/>
+                    <rect key="frame" x="338" y="276" width="72" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="72" id="TbA-pd-e8z"/>
                         <constraint firstAttribute="height" constant="21" id="Uw9-bK-84w"/>
@@ -66,7 +65,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WEf-fI-SNN">
-                    <rect key="frame" x="149" y="471" width="302" height="46"/>
+                    <rect key="frame" x="149" y="354" width="302" height="46"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="46" id="55N-Xc-OcO"/>
                         <constraint firstAttribute="width" constant="302" id="aGC-Oq-zGr"/>
@@ -81,14 +80,14 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow1.png" translatesAutoresizingMaskIntoConstraints="NO" id="P9T-TN-WLM">
-                    <rect key="frame" x="408" y="357" width="21" height="49"/>
+                    <rect key="frame" x="408" y="240" width="21" height="49"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="21" id="4Xw-9n-UQG"/>
                         <constraint firstAttribute="height" constant="49" id="oVv-dy-Tdb"/>
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJU-Xx-6cY">
-                    <rect key="frame" x="149" y="342" width="302" height="80"/>
+                    <rect key="frame" x="149" y="225" width="302" height="80"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="302" id="7IV-EJ-eSV"/>
                         <constraint firstAttribute="height" constant="80" id="JDG-iI-xzE"/>
@@ -120,7 +119,7 @@
                 <constraint firstItem="ewC-ab-Gvb" firstAttribute="top" secondItem="cK3-5v-I6Z" secondAttribute="bottom" constant="-43" id="rua-q3-7FU"/>
                 <constraint firstItem="ewC-ab-Gvb" firstAttribute="top" secondItem="P9T-TN-WLM" secondAttribute="bottom" constant="-64" id="yFL-Iw-ReF"/>
             </constraints>
-            <point key="canvasLocation" x="730" y="446"/>
+            <point key="canvasLocation" x="431" y="427"/>
         </view>
     </objects>
     <resources>

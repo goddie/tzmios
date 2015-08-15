@@ -11,6 +11,7 @@
 #import "MTLJSONAdapter.h"
 #import "Member.h"
 #import "LoginUtil.h"
+#import "LoginController.h"
 
 
 @interface RegController ()
@@ -21,7 +22,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.title = @"注册用户";
+   
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,15 +35,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 - (IBAction)btn1Click:(id)sender {
     
@@ -100,4 +98,23 @@
     [self.txtUsername resignFirstResponder];
     [self.txtPassword resignFirstResponder];
 }
+
+- (IBAction)btn2Click:(id)sender {
+    LoginController *c1 = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
+    [self.navigationController pushViewController:c1 animated:YES];
+
+}
+
+- (IBAction)txt1End:(id)sender {
+    
+    [self.txtPassword becomeFirstResponder];
+    
+}
+
+- (IBAction)txt2End:(id)sender {
+    
+    [sender resignFirstResponder];
+}
+
+
 @end

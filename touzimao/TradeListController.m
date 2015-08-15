@@ -12,6 +12,7 @@
 #import "LoginUtil.h"
 #import "TradeRecord.h"
 #import "FundDetailController.h"
+#import "Product.h"
 
 @interface TradeListController ()
 
@@ -71,7 +72,16 @@
             
             for (NSDictionary *dc in arr) {
                 
+                NSDictionary *dc2 = [dc objectForKey:@"product"];
+                
                 TradeRecord *model = [MTLJSONAdapter modelOfClass:[TradeRecord class] fromJSONDictionary:dc error:nil];
+                
+                if (![dc2 isEqual:[NSNull null]]) {
+                    
+                    Product *p= [MTLJSONAdapter modelOfClass:[Product class] fromJSONDictionary:dc2 error:nil];
+                    model.pid = p.uuid;
+                }
+                
                 [dataArr addObject:model];
                 
                 //NSLog(@"%@",model);
@@ -133,7 +143,7 @@
     FundDetailController *c1 = [[FundDetailController alloc] initWithNibName:@"FundDetailController" bundle:nil];
     c1.uuid = model.pid;
     c1.title = model.title;
-    
+    c1.fid = self.fid;
     [self.navigationController pushViewController:c1 animated:YES];
 }
 

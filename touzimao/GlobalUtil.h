@@ -98,6 +98,9 @@
 +(void) addButtonToView:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSInteger)data;
 
 
++(void) addButton:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSObject*)data;
+
+
 /**
  *  设置默认背景颜色
  *

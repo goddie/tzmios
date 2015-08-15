@@ -62,4 +62,15 @@
  * 同步卖出
  */
 @property (nonatomic, strong) NSNumber *synSell;
+
+
+/**
+ *  跟买的
+ */
+@property (nonatomic, strong) NSString *follow;
+
+/**
+ *  有跟我的
+ */
+@property (nonatomic, strong) NSNumber *hasFans;
 @end
