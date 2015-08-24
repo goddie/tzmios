@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PopListController : UITableViewController
+@interface PopListController : UITableViewController<UISearchBarDelegate>
 {
     NSMutableArray *dataArr;
     NSNumber *curPage;

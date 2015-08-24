@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Product.h"
 
 @interface FundDetailHeaderController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *txtWeek;
@@ -18,5 +19,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtCycle;
 @property (weak, nonatomic) IBOutlet UILabel *txtCash;
 @property (weak, nonatomic) IBOutlet UIImageView *img1;
+
+
+@property (nonatomic, strong) Product *product;
 
 @end

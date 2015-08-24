@@ -31,6 +31,8 @@
 		C25314881B7CDB2900C07192 /* RegOneController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C25314861B7CDB2900C07192 /* RegOneController.xib */; };
 		C253148C1B7CDC3200C07192 /* RegTwoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C253148A1B7CDC3200C07192 /* RegTwoController.m */; };
 		C253148D1B7CDC3200C07192 /* RegTwoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C253148B1B7CDC3200C07192 /* RegTwoController.xib */; };
+		C26351301B8964B90061A93E /* UIViewController+Custome.m in Sources */ = {isa = PBXBuildFile; fileRef = C263512F1B8964B90061A93E /* UIViewController+Custome.m */; };
+		C26351331B8964C40061A93E /* HttpUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C26351321B8964C40061A93E /* HttpUtil.m */; };
 		C2847AD61B4AAC74003F539B /* TKAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = C2847AD51B4AAC74003F539B /* TKAddressBook.m */; };
 		C2847ADA1B4AAECF003F539B /* ContactListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2847AD81B4AAECF003F539B /* ContactListCell.m */; };
 		C2847ADB1B4AAECF003F539B /* ContactListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2847AD91B4AAECF003F539B /* ContactListCell.xib */; };
@@ -327,6 +329,10 @@
 		C25314891B7CDC3200C07192 /* RegTwoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegTwoController.h; sourceTree = "<group>"; };
 		C253148A1B7CDC3200C07192 /* RegTwoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegTwoController.m; sourceTree = "<group>"; };
 		C253148B1B7CDC3200C07192 /* RegTwoController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegTwoController.xib; sourceTree = "<group>"; };
+		C263512E1B8964B90061A93E /* UIViewController+Custome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Custome.h"; sourceTree = "<group>"; };
+		C263512F1B8964B90061A93E /* UIViewController+Custome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Custome.m"; sourceTree = "<group>"; };
+		C26351311B8964C40061A93E /* HttpUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpUtil.h; sourceTree = "<group>"; };
+		C26351321B8964C40061A93E /* HttpUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtil.m; sourceTree = "<group>"; };
 		C2847AD41B4AAC74003F539B /* TKAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKAddressBook.h; sourceTree = "<group>"; };
 		C2847AD51B4AAC74003F539B /* TKAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKAddressBook.m; sourceTree = "<group>"; };
 		C2847AD71B4AAECF003F539B /* ContactListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListCell.h; sourceTree = "<group>"; };
@@ -895,6 +901,8 @@
 				C29EBCAD1B498161008D3EC5 /* ContactListController.h */,
 				C29EBCAE1B498161008D3EC5 /* ContactListController.m */,
 				C29EBCAF1B498161008D3EC5 /* ContactListController.xib */,
+				C294E0C81B7C9DDB00910031 /* DemoModelData.h */,
+				C294E0C91B7C9DDB00910031 /* DemoModelData.m */,
 				C29EBBB11B48D7A7008D3EC5 /* EnterController.h */,
 				C29EBBB21B48D7A7008D3EC5 /* EnterController.m */,
 				C29EBBB31B48D7A7008D3EC5 /* EnterController.xib */,
@@ -907,6 +915,9 @@
 				C29EBC371B48F66B008D3EC5 /* FundListController.h */,
 				C29EBC381B48F66B008D3EC5 /* FundListController.m */,
 				C29EBC391B48F66B008D3EC5 /* FundListController.xib */,
+				C294E0C31B7C9D1600910031 /* JSQChat.h */,
+				C294E0C41B7C9D1600910031 /* JSQChat.m */,
+				C294E0C51B7C9D1600910031 /* JSQChat.xib */,
 				C2D781311B6DCA7F00AF16C8 /* LoginController.h */,
 				C2D781321B6DCA7F00AF16C8 /* LoginController.m */,
 				C2D781331B6DCA7F00AF16C8 /* LoginController.xib */,
@@ -936,6 +947,12 @@
 				C2D7812C1B6DC82700AF16C8 /* RegController.h */,
 				C2D7812D1B6DC82700AF16C8 /* RegController.m */,
 				C2D7812E1B6DC82700AF16C8 /* RegController.xib */,
+				C25314841B7CDB2900C07192 /* RegOneController.h */,
+				C25314851B7CDB2900C07192 /* RegOneController.m */,
+				C25314861B7CDB2900C07192 /* RegOneController.xib */,
+				C25314891B7CDC3200C07192 /* RegTwoController.h */,
+				C253148A1B7CDC3200C07192 /* RegTwoController.m */,
+				C253148B1B7CDC3200C07192 /* RegTwoController.xib */,
 				C29EBC711B492FEB008D3EC5 /* SysConfigController.h */,
 				C29EBC721B492FEB008D3EC5 /* SysConfigController.m */,
 				C29EBC731B492FEB008D3EC5 /* SysConfigController.xib */,
@@ -953,17 +970,6 @@
 				C2B35FEA1B706A3C005F84DA /* WebPageController.h */,
 				C2B35FEB1B706A3C005F84DA /* WebPageController.m */,
 				C2B35FEC1B706A3C005F84DA /* WebPageController.xib */,
-				C294E0C81B7C9DDB00910031 /* DemoModelData.h */,
-				C294E0C91B7C9DDB00910031 /* DemoModelData.m */,
-				C294E0C31B7C9D1600910031 /* JSQChat.h */,
-				C294E0C41B7C9D1600910031 /* JSQChat.m */,
-				C294E0C51B7C9D1600910031 /* JSQChat.xib */,
-				C25314841B7CDB2900C07192 /* RegOneController.h */,
-				C25314851B7CDB2900C07192 /* RegOneController.m */,
-				C25314861B7CDB2900C07192 /* RegOneController.xib */,
-				C25314891B7CDC3200C07192 /* RegTwoController.h */,
-				C253148A1B7CDC3200C07192 /* RegTwoController.m */,
-				C253148B1B7CDC3200C07192 /* RegTwoController.xib */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -971,6 +977,10 @@
 		C29EBBA61B48C9EC008D3EC5 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				C26351311B8964C40061A93E /* HttpUtil.h */,
+				C26351321B8964C40061A93E /* HttpUtil.m */,
+				C263512E1B8964B90061A93E /* UIViewController+Custome.h */,
+				C263512F1B8964B90061A93E /* UIViewController+Custome.m */,
 				C29EBBA71B48CA12008D3EC5 /* GlobalConst.h */,
 				C29EBBA81B48CA12008D3EC5 /* GlobalConst.m */,
 				C29EBBA91B48CA12008D3EC5 /* GlobalUtil.h */,
@@ -1657,6 +1667,7 @@
 				C295CB9C1B6F1C64009A9ECE /* MyCatAccountController.m in Sources */,
 				C295CB931B6EFC66009A9ECE /* BuyProductInputCell.m in Sources */,
 				C2D781FD1B6DCF3500AF16C8 /* UIImageView+WebCache.m in Sources */,
+				C26351301B8964B90061A93E /* UIViewController+Custome.m in Sources */,
 				C29EBC971B4955CF008D3EC5 /* UserPageController.m in Sources */,
 				C2D7820C1B6DCF3500AF16C8 /* UIWebView+AFNetworking.m in Sources */,
 				C253147C1B7CD9C600C07192 /* IQKeyboardReturnKeyHandler.m in Sources */,
@@ -1690,6 +1701,7 @@
 				C2D781E21B6DCF3500AF16C8 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				C29EBC831B49410B008D3EC5 /* FundDetailHeaderController.m in Sources */,
 				C2D781F01B6DCF3500AF16C8 /* NSData+ImageContentType.m in Sources */,
+				C26351331B8964C40061A93E /* HttpUtil.m in Sources */,
 				C2D781DC1B6DCF3500AF16C8 /* MTLJSONAdapter.m in Sources */,
 				C2D781D21B6DCF3500AF16C8 /* AFHTTPSessionManager.m in Sources */,
 				C29EBC881B494E68008D3EC5 /* TradeListController.m in Sources */,

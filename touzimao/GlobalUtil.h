@@ -28,6 +28,7 @@
  *  @param right     <#right description#>
  */
 + (void)set9PathImage:(UIView*)view imageName:(NSString*)imageName top:(CGFloat)top right:(CGFloat)right;
++ (void)set9PathImage:(UIView *)view imageName:(NSString*)imageName insets:(UIEdgeInsets)insets;
 
 /**
  *  按钮北京颜色和颜色
@@ -95,10 +96,7 @@
  *  @param touchView <#touchView description#>
  *  @param action    <#action description#>
  */
-+(void) addButtonToView:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSInteger)data;
-
-
-+(void) addButton:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSObject*)data;
++(void) addButtonToView:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSObject*)data;
 
 
 /**
@@ -125,5 +123,11 @@
  */
 +(NSString*) getDateFromUNIX:(NSNumber*)date;
 
+
++(void) setMaskImageQuick:(UIView*)viewToMask withMask:(NSString*)maskImageName point:(CGPoint)size;
+
++ (UIColor *) colorWithHexString: (NSString *)color;
+
++(NSString*)toString:(id)value;
 
 @end

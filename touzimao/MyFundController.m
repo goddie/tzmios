@@ -221,23 +221,24 @@
     TradeRecord *tr =(TradeRecord*)[dataArr objectAtIndex:indexPath.row];
     Product *p = (Product*)[dataArr2 objectAtIndex:indexPath.row];
     
-    cell.txtName.text = p.name;
-    cell.txtIncome.text = [NSString stringWithFormat:@"%@",[p.weekRate stringValue]];
+    cell.txtName.text = p.CPJC;
+    cell.txtIncome.text = [NSString stringWithFormat:@"%@",[p.SYLZG stringValue]];
     cell.txtHold.text =  [NSString stringWithFormat:@"%@",[tr.amount stringValue]];
     
     
     if (tr.follow.length>0) {
         
         NSString *fid = tr.follow;
-        [GlobalUtil addButton:self sender:cell.txtMyFollow action:@selector(myFollow:) data:fid];
+        [GlobalUtil addButtonToView:self sender:cell.txtMyFollow action:@selector(myFollow:) data:fid];
+//        [GlobalUtil addButton:self sender:cell.txtMyFollow action:@selector(myFollow:) data:fid];
     }else
     {
         cell.txtMyFollow.hidden=YES;
     }
     
     if ([tr.hasFans intValue]>0) {
-        
-        [GlobalUtil addButton:self sender:cell.txtFollowMe action:@selector(followMe:) data:p.uuid];
+        [GlobalUtil addButtonToView:self sender:cell.txtFollowMe action:@selector(followMe:) data:p.uuid];
+//        [GlobalUtil addButtonToView:self sender:cell.txtFollowMe action:@selector(followMe:) data:p.uuid];
     }else
     {
         cell.txtFollowMe.hidden=YES;

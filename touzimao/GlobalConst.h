@@ -10,23 +10,21 @@
 
 @interface GlobalConst : NSObject
 
-/**
- *  Tab文字颜色
- *
- *  @return <#return value description#>
- */
+
+
 +(UIColor *)tabTintColor;
 
-/**
- *  Tab背景颜色
- *
- *  @return <#return value description#>
- */
 +(UIColor *)tabBgColor;
 
 +(UIColor *)bgRed;
 
+
 extern NSString *const baseURL;
+
+
+
+
+
 
 
 

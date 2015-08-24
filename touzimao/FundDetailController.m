@@ -192,12 +192,29 @@
             
             Product *model = [MTLJSONAdapter modelOfClass:[Product class] fromJSONDictionary:dc error:nil];
             
-            headerView.txtPercent.text  = [NSString stringWithFormat:@"%@",[model.weekRate stringValue]] ;
-            headerView.txtTenthou.text = [NSString stringWithFormat:@"%@",[model.tenThousand stringValue]];
-            headerView.txtPubdate.text =[NSString stringWithFormat:@"%@",[GlobalUtil getDateFromUNIX:model.pubDate]];
-            headerView.txtRisk.text = model.risk;
-            headerView.txtCycle.text= [NSString stringWithFormat:@"%@",[model.cycle stringValue]];
-            headerView.txtCash.text = model.cashTime;
+            if (model) {
+                
+                headerView.txtPercent.text  = [NSString stringWithFormat:@"%@",model.SYLZG];
+                
+                NSString *r = @"低风险";
+                
+                if([model.FXDJ intValue]==2)
+                {
+                    r = @"高风险";
+                }
+                
+                headerView.txtRisk.text = r;
+                
+                
+            }
+            
+            
+//            headerView.txtPercent.text  = [NSString stringWithFormat:@"%@",[model.weekRate stringValue]] ;
+//            headerView.txtTenthou.text = [NSString stringWithFormat:@"%@",[model.tenThousand stringValue]];
+//            headerView.txtPubdate.text =[NSString stringWithFormat:@"%@",[GlobalUtil getDateFromUNIX:model.pubDate]];
+//            headerView.txtRisk.text = model.risk;
+//            headerView.txtCycle.text= [NSString stringWithFormat:@"%@",[model.cycle stringValue]];
+//            headerView.txtCash.text = model.cashTime;
             
  
         }

@@ -356,11 +356,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "touzimao/FundDetailController.m"
-            timestampString = "460963965.348042"
+            timestampString = "462086704.924017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -372,11 +372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "touzimao/FundDetailController.m"
-            timestampString = "460963965.348042"
+            timestampString = "462086704.924017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -457,7 +457,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "155"
             endingLineNumber = "155"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -473,7 +473,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "142"
             endingLineNumber = "142"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            landmarkName = "-openUser:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -491,6 +491,38 @@
             endingLineNumber = "106"
             landmarkName = "-loadData"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[FundListController loadData]"
+                  moduleName = "touzimao"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/goddie/Documents/touzimao/tzmios/touzimao/FundListController.m"
+                  timestampString = "462087228.87374"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "243">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__30-[FundListController loadData]_block_invoke"
+                  moduleName = "touzimao"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/goddie/Documents/touzimao/tzmios/touzimao/FundListController.m"
+                  timestampString = "462087228.873986"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "109">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -660,12 +692,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "touzimao/PopListController.m"
-            timestampString = "460966352.82146"
+            timestampString = "462086704.924017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -676,12 +708,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "touzimao/PopListController.m"
-            timestampString = "460966371.765589"
+            timestampString = "462086704.924017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

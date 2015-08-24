@@ -30,6 +30,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *userPercent2;
 @property (weak, nonatomic) IBOutlet UILabel *userPercent3;
 
+@property (weak, nonatomic) IBOutlet UIView *view1;
 
+@property (weak, nonatomic) IBOutlet UIView *view2;
 
+@property (weak, nonatomic) IBOutlet UIView *view3;
 @end

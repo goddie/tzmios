@@ -41,6 +41,30 @@
     
 }
 
++ (void)set9PathImage:(UIView *)view imageName:(NSString*)imageName insets:(UIEdgeInsets)insets
+{
+    UIImage* image = [UIImage imageNamed:imageName];
+    
+    // 指定为拉伸模式，伸缩后重新赋值
+    image = [image resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+    
+    [view setBackgroundColor:[UIColor clearColor]];
+    
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
+//    [imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    
+//    NSLayoutConstraint *c1 = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTop multiplier:1.0f constant:0];
+//    NSLayoutConstraint *c2 = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeBottom multiplier:1.0f constant:0];
+//    NSLayoutConstraint *c3 = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeLeading multiplier:1.0f constant:0];
+//    NSLayoutConstraint *c4 = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:0];
+//    
+//    [imageView addConstraints:@[c1,c2,c3,c4]];
+    
+    imageView.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+    
+    [view addSubview:imageView];
+}
+
 
 + (void)setButtonColor:(UIButton*)button color:(NSString*)color
 {
@@ -136,27 +160,17 @@
 }
 
 
-+(void) addButtonToView:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSInteger)data;
-{
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, touchView.frame.size.width, touchView.frame.size.height)];
-    [touchView addSubview:btn];
-    touchView.userInteractionEnabled=YES;
-    btn.backgroundColor = [UIColor yellowColor];
-    
-    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-    [btn setTitle:@"" forState:UIControlStateNormal];
-    [btn setTag:data];
-}
-
-+(void) addButton:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSObject*)data;
++(void) addButtonToView:(id)target sender:(UIView*)touchView action:(SEL)action data:(NSObject*)data;
 {
     MyButton *btn = [[MyButton alloc] initWithFrame:CGRectMake(0, 0, touchView.frame.size.width, touchView.frame.size.height)];
     [touchView addSubview:btn];
     touchView.userInteractionEnabled=YES;
     //btn.backgroundColor = [UIColor yellowColor];
+    
     [btn setData:data];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     [btn setTitle:@"" forState:UIControlStateNormal];
+//    [btn setTag:data];
 }
 
 
@@ -187,5 +201,99 @@
     return stringFromDate;
     
 }
+
+
++(void) setMaskImageQuick:(UIView*)viewToMask withMask:(NSString*)maskImageName point:(CGPoint)size
+{
+    CALayer *mask = [CALayer layer];
+    mask.contents = (id)[[UIImage imageNamed:maskImageName] CGImage];
+    mask.frame = CGRectMake((viewToMask.frame.size.width -size.x )*0.5f , 0, size.x, size.y);
+    
+    viewToMask.layer.mask = mask;
+    viewToMask.layer.masksToBounds = YES;
+}
+
+
+
+/**
+ *  pragma mark - 颜色转换 IOS中十六进制的颜色转换为UIColor
+ *
+ *  @param color <#color description#>
+ *
+ *  @return <#return value description#>
+ */
++ (UIColor *) colorWithHexString: (NSString *)color
+{
+    NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+    
+    // String should be 6 or 8 characters
+    if ([cString length] < 6) {
+        return [UIColor clearColor];
+    }
+    
+    // strip 0X if it appears
+    if ([cString hasPrefix:@"0X"])
+        cString = [cString substringFromIndex:2];
+    if ([cString hasPrefix:@"#"])
+        cString = [cString substringFromIndex:1];
+    if ([cString length] != 6)
+        return [UIColor clearColor];
+    
+    // Separate into r, g, b substrings
+    NSRange range;
+    range.location = 0;
+    range.length = 2;
+    
+    //r
+    NSString *rString = [cString substringWithRange:range];
+    
+    //g
+    range.location = 2;
+    NSString *gString = [cString substringWithRange:range];
+    
+    //b
+    range.location = 4;
+    NSString *bString = [cString substringWithRange:range];
+    
+    // Scan values
+    unsigned int r, g, b;
+    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+    
+    return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:1.0f];
+}
+
+
++(NSString*)toString:(id)value
+{
+    if ([value isKindOfClass:[NSNumber class]]) {
+        
+        if (value==nil) {
+            return @"";
+        }
+        
+        NSNumber *num = (NSNumber*)value;
+        
+        NSInteger i = [num intValue];
+        
+        return [NSString stringWithFormat:@"%ld",i];
+        
+    }
+    
+    if ([value isKindOfClass:[NSString class]]) {
+        
+        if (value==nil) {
+            return @"";
+        }
+        
+        return (NSString*)value;
+        
+    }
+    return @"";
+}
+
+
+
 
 @end

@@ -62,10 +62,14 @@
 //            MyPageTableController *c1 = [[MyPageTableController alloc] initWithNibName:@"MyPageTableController" bundle:nil];
 //            c1.uuid = model.uuid;
 //            self.navigationController.viewControllers = @[c1];
+
+            
+        }
+        
+        if ([dict objectForKey:@"msg"]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[dict objectForKey:@"msg"] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             
             [alert show];
-            
         }
         
         

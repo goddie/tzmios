@@ -12,6 +12,11 @@
 #import "AFNetworking.h"
 #import "MTLJSONAdapter.h"
 #import "Product.h"
+#import "User.h"
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
+#import "MyButton.h"
+#import "UserPageTableController.h"
 
 @interface FundListController ()
 
@@ -131,6 +136,17 @@
     
 }
 
+
+-(void)openUser:(id)sender
+{
+    MyButton *btn = (MyButton*)sender;
+    User *data = (User*)btn.data;
+    UserPageTableController *c1 = [[UserPageTableController alloc] initWithNibName:@"UserPageTableController" bundle:nil];
+    c1.uuid = data.uuid;
+    
+    [self.navigationController pushViewController:c1 animated:YES];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -154,10 +170,63 @@
     
     Product *p = (Product*)[dataArr objectAtIndex:indexPath.row];
     
-    cell.txtName.text = p.name;
-    cell.txtPercent.text= [NSString stringWithFormat:@"%@%%",[p.weekRate stringValue]];
-    cell.txtInfo.text = [NSString stringWithFormat:@"%@ %@ 起购金额:%@",p.code,[GlobalUtil getDateFromUNIX:p.pubDate],[p.minBuy stringValue]];
+    cell.txtName.text = p.CPJC;
+    cell.txtPercent.text= [NSString stringWithFormat:@"%@%%",[p.SYLZG stringValue]];
+    cell.txtInfo.text = [NSString stringWithFormat:@"%@ %@ 起购金额:%@",p.CPBH,[p.CPQX stringValue],[p.TZMKED stringValue]];
     
+    NSArray *arr = p.list;
+    
+    if(arr.count==0)
+    {
+        return cell;
+    }
+    
+    
+    if (arr.count==1) {
+        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:0] error:nil];
+        if(model.avatar)
+        {
+            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
+            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
+        }
+
+        cell.userName1.text = model.nickname;
+        cell.userPercent1.text = [model.lastIncome stringValue];
+        
+        [GlobalUtil addButtonToView:self sender:cell.view1 action:@selector(openUser:) data:model.uuid];
+        
+        cell.view2.hidden=YES;
+        cell.view3.hidden=YES;
+    }
+    
+    if (arr.count==2) {
+        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:1] error:nil];
+        if(model.avatar)
+        {
+            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
+            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
+        }
+        
+        cell.userName2.text = model.nickname;
+        cell.userPercent2.text = [model.lastIncome stringValue];
+        
+        [GlobalUtil addButtonToView:self sender:cell.view2 action:@selector(openUser:) data:model.uuid];
+        
+        cell.view3.hidden=YES;
+    }
+    
+    if (arr.count==3) {
+        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:2] error:nil];
+        if(model.avatar)
+        {
+            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
+            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
+        }
+        
+        cell.userName3.text = model.nickname;
+        cell.userPercent3.text = [model.lastIncome stringValue];
+        [GlobalUtil addButtonToView:self sender:cell.view3 action:@selector(openUser:) data:model.uuid];
+    }
     
     
     return cell;

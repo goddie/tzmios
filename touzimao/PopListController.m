@@ -20,6 +20,10 @@
 @end
 
 @implementation PopListController
+{
+    UISearchBar *sBar;
+    NSString *key;
+}
 
 
 - (void)viewDidLoad {
@@ -48,7 +52,44 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+-(void)search
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *parameters = @{
+                                 @"s":key
+                        
+                                 };
+    [dataArr removeAllObjects];
+    
+    [manager POST:[GlobalUtil requestURL:@"user/json/search"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //NSLog(@"JSON: %@", responseObject);
+        
+        NSDictionary *dict = (NSDictionary *)responseObject;
+        
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+            
+            NSArray *arr = [dict objectForKey:@"data"];
+            
+            for (NSDictionary *dc in arr) {
+                
+                User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+                [dataArr addObject:model];
+                
+                //NSLog(@"%@",model);
+            }
+            
+            [self.tableView reloadData];
+            
+        }
+        
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    
+}
 
 
 
@@ -101,11 +142,24 @@
 -(UIView*)addSearchBar
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
-    UISearchBar *search = [[UISearchBar alloc] initWithFrame:view.frame];
+    sBar = [[UISearchBar alloc] initWithFrame:view.frame];
+    sBar.delegate =self;
     
-    [view addSubview:search];
+    [view addSubview:sBar];
+    
+    
     
     return view;
+}
+
+
+-(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+//    [self searchBar:self.searchBar textDidChange:nil];
+    [sBar resignFirstResponder];
+    
+    key = searchBar.text;
+    
+    [self search];
 }
 
 -(void)followBuy:(UIButton*)btn
