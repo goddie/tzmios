@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -22,22 +21,15 @@
                             <constraint firstAttribute="height" constant="60" id="yCi-lh-2y8"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lv12" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMN-Wk-5Iu">
-                        <rect key="frame" x="81" y="24" width="130" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="130" id="krE-Zi-X4z"/>
-                            <constraint firstAttribute="height" constant="21" id="pEc-23-vR9"/>
-                        </constraints>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMN-Wk-5Iu">
+                        <rect key="frame" x="78" y="8" width="130" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.8862745098" green="0.23529411759999999" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="YRr-Ex-ttF" secondAttribute="centerY" id="6a7-lz-73l"/>
-                    <constraint firstItem="kMN-Wk-5Iu" firstAttribute="leading" secondItem="YRr-Ex-ttF" secondAttribute="trailing" constant="13" id="MNF-sr-QAe"/>
                     <constraint firstItem="YRr-Ex-ttF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="dVy-AJ-39D"/>
-                    <constraint firstAttribute="centerY" secondItem="kMN-Wk-5Iu" secondAttribute="centerY" id="fNV-KJ-YKq"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

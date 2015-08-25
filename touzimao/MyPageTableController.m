@@ -18,7 +18,8 @@
 #import "User.h"
 #import "MyCatAccountController.h"
 #import "CashOutController.h"
-
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
 
 @interface MyPageTableController ()
 
@@ -39,6 +40,7 @@
     buttons = [NSArray arrayWithObjects:@"交易提现",@"已持基金",@"交易明细",@"猫币账户",nil];
     
     headerView = [[MyPageController alloc] initWithNibName:@"MyPageController" bundle:nil];
+    headerView.user =self.user;
     [self addChildViewController:headerView];
     
     
@@ -104,6 +106,7 @@
 -(void)rightClick
 {
     SysConfigController *controller = [[SysConfigController alloc] initWithNibName:@"SysConfigController" bundle:nil];
+    controller.user =self.user;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -181,12 +184,24 @@
             
             User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
             
+            if (model) {
+                
+                self.user = model ;
+                
+                headerView.txtName.text = model.nickname;
+                headerView.txtTotal.text = [NSString stringWithFormat:@"%@",[model.totalIncome stringValue]];
+                headerView.txtYesterday.text = [NSString stringWithFormat:@"%@",[model.lastIncome stringValue]];
+                headerView.txtLevel.text = [NSString stringWithFormat:@"%@级投资猫达人",[model.level stringValue]];
+                headerView.txtWealth.text = [NSString stringWithFormat:@"%@",[model.wealth stringValue]];
+                
+                if (self.user.avatar) {
+                    NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:self.user.avatar]];
+                    [headerView.img sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+                }
             
-            headerView.txtName.text = model.nickname;
-            headerView.txtTotal.text = [NSString stringWithFormat:@"%@",[model.totalIncome stringValue]];
-            headerView.txtYesterday.text = [NSString stringWithFormat:@"%@",[model.lastIncome stringValue]];
-            headerView.txtLevel.text = [NSString stringWithFormat:@"%@级投资猫达人",[model.level stringValue]];
-            headerView.txtWealth.text = [NSString stringWithFormat:@"%@",[model.wealth stringValue]];
+            }
+            
+
         }
         
         

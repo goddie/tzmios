@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
-@interface AccountController : UITableViewController
+@interface AccountController : UITableViewController <UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+
+
+@property (nonatomic, strong) User *user;
 
 @end

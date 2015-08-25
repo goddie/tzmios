@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface SysConfigController : UITableViewController
+@property (nonatomic, strong) User *user;
 
 @end

@@ -83,6 +83,8 @@
     if (indexPath.row==0) {
         
         AccountController *controller = [[AccountController alloc] initWithNibName:@"AccountController" bundle:nil];
+        controller.user = self.user;
+        
         [self.navigationController pushViewController:controller animated:YES];
         
         return;

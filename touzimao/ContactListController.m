@@ -87,7 +87,7 @@
             type = [NSNumber numberWithInt:1];
             break;
     }
-    //[self loadData];
+//    [self refreshControl];
 }
 
 

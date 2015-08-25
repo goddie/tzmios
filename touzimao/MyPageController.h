@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface MyPageController : UIViewController
 
@@ -17,5 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtWealth;
 @property (weak, nonatomic) IBOutlet UILabel *txtTotal;
 @property (weak, nonatomic) IBOutlet UILabel *txtYesterday;
+
+
+@property (strong,nonatomic) User *user;
 
 @end

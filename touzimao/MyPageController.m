@@ -9,6 +9,7 @@
 #import "MyPageController.h"
 #import "SysConfigController.h"
 #import "AccountController.h"
+#import "UIImageView+WebCache.h"
 
 @interface MyPageController ()
 
@@ -30,7 +31,13 @@
     
     self.img.layer.mask = mask;
     self.img.layer.masksToBounds = YES;
-    self.img.image = [UIImage imageNamed:@"header.png"];
+    self.img.image = [UIImage imageNamed:@"avatar.png"];
+    
+//    if (self.user.avatar) {
+//        NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:self.user.avatar]];
+//        [self.img sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+//    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

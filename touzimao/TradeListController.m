@@ -13,6 +13,8 @@
 #import "TradeRecord.h"
 #import "FundDetailController.h"
 #import "Product.h"
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
 
 @interface TradeListController ()
 
@@ -43,7 +45,21 @@
     }
     
     
+    __weak TradeListController *wkSelf = self;
+    
+ 
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [wkSelf refresh];
+        
+    }];
+    
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [wkSelf loadMore];
+        
+    }];
+    
     [self loadData];
+
     
 }
 
@@ -54,17 +70,41 @@
 
 
 
+-(void)refresh
+{
+    [dataArr removeAllObjects];
+    curPage = [NSNumber numberWithInt:1];
+    [self loadData];
+}
+
+-(void)loadMore
+{
+    curPage = [NSNumber numberWithInt: [curPage intValue] + 1];
+    
+    [self loadData];
+}
+
+-(void)stopAnimation
+{
+    [self.tableView.pullToRefreshView stopAnimating];
+    [self.tableView.infiniteScrollingView stopAnimating];
+    [self hideHud];
+}
+
+
+
+
 -(void)loadData
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [self showHud];
+    
     NSDictionary *parameters = @{
                                  @"uid":self.uuid,
                                  @"p":[curPage stringValue]
                                  };
-    [manager POST:[GlobalUtil requestURL:@"traderecord/json/list"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"parameters: %@", parameters);
-        
-        NSDictionary *dict = (NSDictionary *)responseObject;
+    
+    [self post:@"traderecord/json/list" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
         
         if ([[dict objectForKey:@"code"] intValue]==1) {
             
@@ -86,15 +126,14 @@
                 
                 //NSLog(@"%@",model);
             }
-
+            
             [self.tableView reloadData];
         }
         
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+        [self stopAnimation];
+
     }];
+    
     
 }
 
@@ -117,6 +156,10 @@
         
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
         cell = [nib objectAtIndex:0];
+    }
+    
+    if (dataArr.count==0) {
+        return cell;
     }
     
     TradeRecord *model = [dataArr objectAtIndex:indexPath.row];

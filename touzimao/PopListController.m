@@ -15,6 +15,9 @@
 #import "TradeListController.h"
 #import "LoginUtil.h"
 
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
+
 @interface PopListController ()
 
 @end
@@ -26,16 +29,17 @@
 }
 
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
     
     self.title = @"红人圈";
+    
+ 
+    [self addRight];
 
     dataArr = [NSMutableArray arrayWithCapacity:10];
     curPage = [NSNumber numberWithInt:1];
@@ -44,8 +48,45 @@
         [LoginUtil getLocalUUID];
     }
     
+    __weak PopListController *wkSelf = self;
+ 
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [wkSelf refresh];
+        
+    }];
+    
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [wkSelf loadMore];
+        
+    }];
+    
     [self loadData];
 }
+
+
+
+-(void)refresh
+{
+    [dataArr removeAllObjects];
+    curPage = [NSNumber numberWithInt:1];
+    [self loadData];
+}
+
+-(void)loadMore
+{
+    curPage = [NSNumber numberWithInt: [curPage intValue] + 1];
+    
+    [self loadData];
+}
+
+-(void)stopAnimation
+{
+    [self.tableView.pullToRefreshView stopAnimating];
+    [self.tableView.infiniteScrollingView stopAnimating];
+    [self hideHud];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -54,17 +95,17 @@
 
 -(void)search
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [self showHud];
+    
     NSDictionary *parameters = @{
                                  @"s":key
                         
                                  };
     [dataArr removeAllObjects];
     
-    [manager POST:[GlobalUtil requestURL:@"user/json/search"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"JSON: %@", responseObject);
-        
-        NSDictionary *dict = (NSDictionary *)responseObject;
+    [self post:@"user/json/search" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
         
         if ([[dict objectForKey:@"code"] intValue]==1) {
             
@@ -83,49 +124,59 @@
             
         }
         
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+        [self hideHud];
+
     }];
     
 }
 
 
 
+-(void)addRight
+{
+    //UIImage *searchimage=[UIImage imageNamed:@"search.png"];
+    
+    
+//    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"左边按钮" style:UIBarButtonItemStylePlain
+//                                                                      target:self action:@selector(OnLeftButton:)];
+//    self.navigationItem.leftBarButtonItem = leftButtonItem;
+//    [leftButtonItem release];
+    
+    UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain
+                                                                       target:self action:@selector(refresh)];
+    self.navigationItem.rightBarButtonItem = rightButtonItem;
+ 
+}
+
 -(void)loadData
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [self showHud];
+    
     NSDictionary *parameters = @{
                                  @"p":curPage
                                  };
-    [manager POST:[GlobalUtil requestURL:@"user/json/list"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"JSON: %@", responseObject);
-        
-        NSDictionary *dict = (NSDictionary *)responseObject;
-        
-        if ([[dict objectForKey:@"code"] intValue]==1) {
+    
+    [self post:@"user/json/list" params:parameters success:^(id responseObj)
+     {
+         NSDictionary *dict = (NSDictionary *)responseObj;
+         if ([[dict objectForKey:@"code"] intValue]==1) {
+             NSArray *arr = [dict objectForKey:@"data"];
+             for (NSDictionary *dc in arr) {
+                 User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+                 [dataArr addObject:model];
+                 
+                 //NSLog(@"%@",model);
+             }
+             
+             [self.tableView reloadData];
+             
             
-            
-            NSArray *arr = [dict objectForKey:@"data"];
-            
-            for (NSDictionary *dc in arr) {
-                
-                User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
-                [dataArr addObject:model];
-                
-                //NSLog(@"%@",model);
-            }
-            
-            [self.tableView reloadData];
-            
-        }
-        
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
+             
+         }
+         
+         [self stopAnimation];
+         
+     }];
 
 }
 
@@ -168,6 +219,8 @@
     
 }
 
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -188,6 +241,10 @@
         
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
         cell = [nib objectAtIndex:0];
+    }
+ 
+    if (dataArr.count==0) {
+        return cell;
     }
     
     User *u = (User*)[dataArr objectAtIndex:indexPath.row];

@@ -194,7 +194,13 @@
             
             if (model) {
                 
-                headerView.txtPercent.text  = [NSString stringWithFormat:@"%@",model.SYLZG];
+                float per = [model.SYLZG floatValue] /100.0f;
+                
+                headerView.txtWeek.text = @"最高收益";
+                
+                headerView.txtPercent.text  = [NSString stringWithFormat:@"%.1f",per];
+                
+                headerView.txtMin.text = [model.TZMKED stringValue];
                 
                 NSString *r = @"低风险";
                 

@@ -12,4 +12,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *txt;
 @property (weak, nonatomic) IBOutlet UIImageView *img;
+@property (weak, nonatomic) IBOutlet UILabel *txtLevel;
 @end

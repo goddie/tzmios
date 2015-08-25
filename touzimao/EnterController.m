@@ -31,7 +31,7 @@
     
     self.img1.layer.mask = mask;
     self.img1.layer.masksToBounds = YES;
-    self.img1.image = [UIImage imageNamed:@"header.png"];
+    self.img1.image = [UIImage imageNamed:@"avatar.png"];
     
     self.uuid = [LoginUtil getLocalUUID];
     

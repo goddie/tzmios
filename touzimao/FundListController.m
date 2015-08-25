@@ -27,6 +27,7 @@
     NSMutableArray *dataArr;
     NSNumber *curPage;
     NSNumber *type;
+
 }
 
 - (void)viewDidLoad {
@@ -38,20 +39,64 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    //self.title = @"聚宝盆";
+    [self globalConfig];
+    
+    self.title = @"聚宝盆";
     
     [self segAdd];
     
     dataArr = [NSMutableArray arrayWithCapacity:10];
     curPage = [NSNumber numberWithInt:1];
     type = [NSNumber numberWithInt:0];
+    
+    __weak FundListController *wkSelf = self;
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [wkSelf refresh];
+        
+    }];
+    
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [wkSelf loadMore];
+        
+    }];
+    
+    [self loadData];
+
+}
+
+//-(void)hudInit
+//{
+//    hud = [[MBProgressHUD alloc] initWithView:self.view];
+//    [self.view addSubview:hud];
+//    hud.mode = MBProgressHUDModeText;
+//    hud.delegate = self;
+//    hud.labelText = @"Loading";
+//}
+
+
+
+-(void)refresh
+{
+    [dataArr removeAllObjects];
+    curPage = [NSNumber numberWithInt:1];
+    
     [self loadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)loadMore
+{
+    curPage = [NSNumber numberWithInt: [curPage intValue] + 1];
+    
+    [self loadData];
 }
+
+-(void)stopAnimation
+{
+    [self.tableView.pullToRefreshView stopAnimating];
+    [self.tableView.infiniteScrollingView stopAnimating];
+    [self hideHud];
+}
+
 
 
 -(void)segAdd
@@ -91,22 +136,23 @@
             type = [NSNumber numberWithInt:1];
             break;
     }
-    [self loadData];
+    [self refresh];
 }
 
 -(void)loadData
 {
-    [dataArr removeAllObjects];
+
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [self showHud];
+    
     NSDictionary *parameters = @{
                                  @"p":curPage,
                                  @"type":type
                                  };
-    [manager POST:[GlobalUtil requestURL:@"product/json/list"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"JSON: %@", responseObject);
+    
+    [self post:@"product/json/list" params:parameters success:^(id responseObj) {
         
-        NSDictionary *dict = (NSDictionary *)responseObject;
+        NSDictionary *dict = (NSDictionary *)responseObj;
         
         if ([[dict objectForKey:@"code"] intValue]==1) {
             
@@ -121,18 +167,18 @@
                 if (model!=NULL) {
                     [dataArr addObject:model];
                 }
-
+                
             }
             
             [self.tableView reloadData];
             
         }
         
+        [self stopAnimation];
         
         
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
     }];
+    
     
 }
 
@@ -168,10 +214,18 @@
         cell = [nib objectAtIndex:0];
     }
     
+    if (dataArr.count==0) {
+        return cell;
+    }
+    
     Product *p = (Product*)[dataArr objectAtIndex:indexPath.row];
     
+
+    
     cell.txtName.text = p.CPJC;
-    cell.txtPercent.text= [NSString stringWithFormat:@"%@%%",[p.SYLZG stringValue]];
+    
+    float per = [p.SYLZG floatValue] / 100.0f;
+    cell.txtPercent.text= [NSString stringWithFormat:@"%.1f%%",per];
     cell.txtInfo.text = [NSString stringWithFormat:@"%@ %@ 起购金额:%@",p.CPBH,[p.CPQX stringValue],[p.TZMKED stringValue]];
     
     NSArray *arr = p.list;
@@ -192,6 +246,7 @@
 
         cell.userName1.text = model.nickname;
         cell.userPercent1.text = [model.lastIncome stringValue];
+        cell.txtPercentTitle.text = @"最高收益";
         
         [GlobalUtil addButtonToView:self sender:cell.view1 action:@selector(openUser:) data:model.uuid];
         

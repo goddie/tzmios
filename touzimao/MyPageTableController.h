@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface MyPageTableController : UITableViewController
 
 @property (nonatomic, strong) NSString *uuid;
-
+@property (nonatomic, strong) User *user;
 @end
