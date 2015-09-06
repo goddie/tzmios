@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -16,9 +15,9 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aw1-m8-liy">
-                        <rect key="frame" x="8" y="11" width="165" height="21"/>
+                        <rect key="frame" x="8" y="11" width="120" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="165" id="gl4-hy-TLz"/>
+                            <constraint firstAttribute="width" constant="120" id="gl4-hy-TLz"/>
                             <constraint firstAttribute="height" constant="21" id="tsP-6h-m7a"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -26,9 +25,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dky-an-0kQ">
-                        <rect key="frame" x="116" y="11" width="171" height="21"/>
+                        <rect key="frame" x="167" y="11" width="120" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="171" id="2G7-s9-BVG"/>
+                            <constraint firstAttribute="width" constant="120" id="2G7-s9-BVG"/>
                             <constraint firstAttribute="height" constant="21" id="9r3-Rt-Xbv"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -47,7 +46,7 @@
                 <outlet property="txtName" destination="aw1-m8-liy" id="xmO-GV-ixr"/>
                 <outlet property="txtValue" destination="dky-an-0kQ" id="IP2-Np-HJG"/>
             </connections>
-            <point key="canvasLocation" x="205" y="409"/>
+            <point key="canvasLocation" x="529" y="352"/>
         </tableViewCell>
     </objects>
 </document>

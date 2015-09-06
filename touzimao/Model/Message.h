@@ -12,9 +12,9 @@
 
 @property (nonatomic, strong) NSString *uuid;
 
-@property (nonatomic, strong) NSString *from;
+@property (nonatomic, strong) NSDictionary *from;
 
-@property (nonatomic, strong) NSString *sendTo;
+@property (nonatomic, strong) NSDictionary *sendTo;
 
 @property (nonatomic, strong) NSString *content;
 

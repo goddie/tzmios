@@ -90,10 +90,30 @@
         return;
     }
     
+    if (indexPath.row==2) {
+        NSString *url = [baseURL stringByAppendingString:@"article/page/detail?title=客户服务"];
+        WebPageController *c1 = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
+        c1.title = cell.txtName.text;
+        c1.URL =url;
+        [self.navigationController pushViewController:c1 animated:YES];
+    }
     
-    WebPageController *c1 = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
-    c1.title = cell.txtName.text;
-    [self.navigationController pushViewController:c1 animated:YES];
+    if (indexPath.row==3) {
+        NSString *url = [baseURL stringByAppendingString:@"article/page/detail?title=常见问答"];
+        WebPageController *c1 = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
+        c1.title = cell.txtName.text;
+        c1.URL =url;
+        [self.navigationController pushViewController:c1 animated:YES];
+    }
+    
+    if (indexPath.row==4) {
+        NSString *url = [baseURL stringByAppendingString:@"article/page/detail?title=关于投资猫"];
+        WebPageController *c1 = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
+        c1.title = cell.txtName.text;
+        c1.URL =url;
+        [self.navigationController pushViewController:c1 animated:YES];
+    }
+
 
 }
 

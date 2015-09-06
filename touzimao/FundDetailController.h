@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FundDetailController : UITableViewController
+@interface FundDetailController : UITableViewController<UIActionSheetDelegate,UIAlertViewDelegate>
 @property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, strong) NSString *fid;
 

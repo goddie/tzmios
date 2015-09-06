@@ -15,6 +15,9 @@
 #import "AFNetworking.h"
 #import "UIViewController+Custome.h"
 #import "UIImageView+WebCache.h"
+#import "AppDelegate.h"
+#import "UpPassword.h"
+#import "UserInfo.h"
 
 @interface AccountController ()
 
@@ -23,6 +26,7 @@
 @implementation AccountController
 {
     NSArray *buttons;
+
 }
 
 - (void)viewDidLoad {
@@ -36,17 +40,24 @@
     
     self.title =@"账户管理";
     
-    buttons = [NSArray arrayWithObjects:@"头像管理",@"实名认证",@"身份认证",@"修改密码", nil];
+    buttons = [NSArray arrayWithObjects:@"头像管理",@"微信授权",@"修改密码", nil];
     
     [self bindUser];
     
+    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
     
+    [self.tableView setTableFooterView:v];
     //[self setExtraCellLineHidden:self.tableView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self loadData];
 }
 
 
@@ -59,7 +70,7 @@
             if ([cell isKindOfClass:[UserHeaderCell class]]) {
                 UserHeaderCell *c = (UserHeaderCell*)cell;
                  NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:self.user.avatar]];
-                [c.img sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"holder.png"]];
+                [c.img sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
             }
         }
     }
@@ -254,6 +265,61 @@
     return newImage;
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag ==100) {
+        if (buttonIndex==1) {
+            [self logout];
+        }
+    }
+}
+
+-(void)logout
+{
+    [LoginUtil clearLocal];
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    [[AppDelegate delegate] loginPage];
+}
+
+
+-(void)loadData
+{
+    
+    if (!self.user) {
+        return;
+    }
+    
+    
+    NSDictionary *parameters = @{
+                                 @"uid":self.user.uuid
+                                 };
+    
+    
+    [self post:@"user/json/detail" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+            
+            NSDictionary *dc = [dict objectForKey:@"data"];
+            
+            
+            
+            self.user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+            
+            if (self.user) {
+                
+                [self.tableView reloadData];
+            }
+            
+            
+        }
+    }];
+    
+}
+
 
 
 #pragma mark - Table view data source
@@ -314,7 +380,8 @@
                 [cell.img sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
             }
  
-
+            cell.txt.text = self.user.nickname;
+            cell.txt2.text = self.user.phone;
             
             return cell;
         }
@@ -337,15 +404,17 @@
     
     if (indexPath.section==1) {
         
-        static NSString *CellIdentifier = @"BtnCell";
-        BtnCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        static NSString *CellIdentifier = @"ConfigCell";
+        ConfigCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(cell==nil){
             
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
             cell = [nib objectAtIndex:0];
         }
         
-        cell.txt.text = @"退出登录";
+
+        
+        cell.txtName.text = @"退出登录";
         
         return cell;
         
@@ -368,29 +437,61 @@
 {
  
         
-    BtnCell *cell = (BtnCell*)[tableView cellForRowAtIndexPath:indexPath];
+//    BtnCell *cell = (BtnCell*)[tableView cellForRowAtIndexPath:indexPath];
     
-    if (indexPath.row == 0) {
-        UIActionSheet* actionSheet = [[UIActionSheet alloc]
-                                      initWithTitle:@"请选择图片来源"
-                                      delegate:self
-                                      cancelButtonTitle:@"取消"
-                                      destructiveButtonTitle:nil
-                                      otherButtonTitles:@"拍摄",@"从相册选择",nil];
-        actionSheet.tag = 200;
-        [actionSheet showInView:self.view];
+    if (indexPath.section==0) {
+        //改头像
+        if (indexPath.row == 0) {
+            UserInfo *c1 = [[UserInfo alloc] initWithNibName:@"UserInfo" bundle:nil];
+            c1.user = self.user;
+            [self.navigationController pushViewController:c1 animated:YES];
+        }
+        
+        //微信认证
+        if (indexPath.row == 1) {
+            
+            //构造SendAuthReq结构体
+            SendAuthReq* req = [[SendAuthReq alloc] init];
+            req.scope = @"snsapi_userinfo" ;
+            req.state = @"123" ;
+            //第三方向微信终端发送一个SendAuthReq消息结构
+            [WXApi sendReq:req];
+            
+            
+        }
+        
+        if (indexPath.row == 2) {
+    
+            UpPassword *c1 =[[UpPassword alloc] initWithNibName:@"UpPassword" bundle:nil];
+            [self.navigationController pushViewController:c1 animated:YES];
+        }
     }
     
+
     
-    if (indexPath.row == 4) {
-        [LoginUtil clearLocal];
+    
+    if (indexPath.section==1) {
+        if (indexPath.row == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定退出吗?" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:@"确定", nil];
+            alert.tag =100;
+            [alert show];
+            
+
+//            LoginController *c1 = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
+//            
+//            [self presentViewController:c1 animated:YES completion:^{
+//                
+//            }];
+            
+//            self.navigationController.viewControllers  = @[c1];
+            
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
         
-        LoginController *c1 = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
         
-        
-        self.navigationController.viewControllers  = @[c1];
-        
-        [self.navigationController popToRootViewControllerAnimated:YES];
+
+
     }
     
  

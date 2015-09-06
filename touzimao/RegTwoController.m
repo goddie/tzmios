@@ -12,6 +12,9 @@
 #import "MTLJSONAdapter.h"
 #import "User.h"
 #import "LoginUtil.h"
+#import "AppDelegate.h"
+#import "UserInfo.h"
+#import "RegThreeController.h"
 
 @interface RegTwoController ()
 
@@ -95,6 +98,8 @@
 }
 
 
+
+
 -(void)doLogin:(NSString*)username password:(NSString*)password
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -109,7 +114,25 @@
             User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:data error:nil];
             [LoginUtil saveLocalUser:model];
             [LoginUtil saveLocalUUID:model];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+            
+            if (!model.nickname) {
+                RegThreeController *c1  = [[RegThreeController alloc] initWithNibName:@"RegThreeController" bundle:nil];
+                [self.navigationController pushViewController:c1 animated:YES];
+            }else
+            {
+                [[AppDelegate delegate] changeRoot];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                
+                [self dismissViewControllerAnimated:NO completion:^{
+                    
+                }];
+            }
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[dict objectForKey:@"msg"] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alert show];
+            
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -133,8 +156,7 @@
             [self doLogin:self.phone password:self.txt2.text];
         }
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[dict objectForKey:@"msg"] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alert show];
+
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);

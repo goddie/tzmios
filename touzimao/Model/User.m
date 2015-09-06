@@ -31,7 +31,9 @@
              @"username":@"username",
              @"password":@"password",
              @"email":@"email",
-             @"regIp":@"regIp"
+             @"regIp":@"regIp",
+             @"catCoin":@"catCoin",
+             @"score":@"score"
              };
 }
 

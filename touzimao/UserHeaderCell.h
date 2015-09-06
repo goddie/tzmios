@@ -11,6 +11,7 @@
 @interface UserHeaderCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *txt;
+@property (weak, nonatomic) IBOutlet UILabel *txt2;
 @property (weak, nonatomic) IBOutlet UIImageView *img;
 @property (weak, nonatomic) IBOutlet UILabel *txtLevel;
 @end

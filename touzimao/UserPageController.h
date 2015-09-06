@@ -28,4 +28,6 @@
 
 
 @property (nonatomic, strong) NSString *uuid;
+
+-(void)loadData;
 @end

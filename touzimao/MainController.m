@@ -57,16 +57,20 @@
     NSString *username = [LoginUtil getLocalUser];
     //NSString *uuid = [LoginUtil getLocalUUID];
     
+
     UIViewController *nav4;
-    
-    if ([username length]==0) {
-        nav4= [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
-    }else
-    {
-        MyPageTableController *c1 = [[MyPageTableController alloc] initWithNibName:@"MyPageTableController" bundle:nil];
-        c1.uuid = [LoginUtil getLocalUUID];
-        nav4 = c1;
-    }
+    MyPageTableController *c1 = [[MyPageTableController alloc] initWithNibName:@"MyPageTableController" bundle:nil];
+    c1.uuid = [LoginUtil getLocalUUID];
+    nav4 = c1;
+
+//    if (!username) {
+//        nav4= [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
+//    }else
+//    {
+//        MyPageTableController *c1 = [[MyPageTableController alloc] initWithNibName:@"MyPageTableController" bundle:nil];
+//        c1.uuid = [LoginUtil getLocalUUID];
+//        nav4 = c1;
+//    }
     
     
     //MyPageTableController *nav4= [[MyPageTableController alloc] initWithNibName:@"MyPageTableController" bundle:nil];
@@ -127,16 +131,11 @@
 -(void)openAdvise:(NSNotification*)notification
 {
     NSString *uuid = (NSString*)notification.object;
-    
     UserPageTableController *c1 = [[UserPageTableController alloc] initWithNibName:@"UserPageTableController" bundle:nil];
     c1.uuid =uuid;
-    
     NSMutableArray *arr2 = [NSMutableArray arrayWithArray:nav11.viewControllers];
     [arr2 addObject:c1];
-   
     nav11.viewControllers = arr2;
-    
-
 }
 
 @end

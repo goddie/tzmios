@@ -12,7 +12,8 @@
 #import "LoginUtil.h"
 #import "User.h"
 #import "RegOneController.h"
-
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
 @interface EnterController ()
 
 @end
@@ -35,20 +36,21 @@
     
     self.uuid = [LoginUtil getLocalUUID];
     
-    if (self.uuid != nil) {
+    if (self.uuid) {
         [self loadData];
-    }else
+    }
+    else
     {
-        RegOneController *c1 = [[RegOneController alloc] initWithNibName:@"RegOneController" bundle:nil];
-        [self.navigationController pushViewController:c1 animated:YES];
+        [[AppDelegate delegate] loginPage];
     }
     
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(void)viewDidAppear:(BOOL)animated
 {
     self.uuid = [LoginUtil getLocalUUID];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -76,6 +78,11 @@
             self.txt1.text = model.nickname;
             self.txt2.text = [NSString stringWithFormat:@"%@",[model.lastIncome stringValue]];
             
+            if (model.avatar) {
+                NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:model.avatar]];
+                [self.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+            }
+            
             self.uuid = model.uuid;
             
         }
@@ -90,35 +97,17 @@
 
 - (IBAction)btn1Click:(id)sender {
     
-    if (self.uuid==nil) {
-        [self openReg];
-        
-        return;
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"openAdvise" object:self.uuid];
     
     
-    
-    if (self.uuid.length>0) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"openAdvise" object:self.uuid];
-    }
-    
-    
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate changeRoot];
+    [[AppDelegate delegate] changeRoot];
 }
 
 
 - (IBAction)btn2Click:(id)sender {
     
-    if (self.uuid==nil) {
-        [self openReg];
-        
-        return;
-    }
+    [[AppDelegate delegate] changeRoot];
     
-    
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate changeRoot];
 }
 
 

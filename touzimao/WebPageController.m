@@ -18,7 +18,7 @@
     [super viewDidLoad];
 
     if (self.URL.length>0) {
-        [self loadWebPageWithString:self.URL];
+        [self loadWebPageWithString];
     }
 }
 
@@ -28,11 +28,12 @@
 }
 
 
-
-- (void)loadWebPageWithString:(NSString*)urlString
+- (void)loadWebPageWithString
 {
-    NSURL *url =[NSURL URLWithString:urlString];
-    NSURLRequest *request =[NSURLRequest requestWithURL:url];
+//    NSString *str = [baseURL stringByAppendingString:@"article/page/detail?title=关于来斗牛"];
+    NSString* string2 = [self.URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:string2]];
     [self.web loadRequest:request];
 }
 

@@ -19,7 +19,7 @@
     
     self.img.layer.mask = mask;
     self.img.layer.masksToBounds = YES;
-    self.img.image = [UIImage imageNamed:@"header.png"];
+    self.img.image = [UIImage imageNamed:@"avatar.png"];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

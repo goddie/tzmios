@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="btn1" destination="agT-Ue-iMg" id="v9K-Kl-cAv"/>
                 <outlet property="btn2" destination="oxL-r3-syv" id="s5B-pL-Lz1"/>
+                <outlet property="btn3" destination="jV6-pa-y8h" id="XdT-BY-dDR"/>
                 <outlet property="txt1" destination="jYo-nY-OtQ" id="c1N-Xy-m7W"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -46,7 +47,7 @@
                         <constraint firstAttribute="width" constant="302" id="kcZ-va-yPH"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxL-r3-syv">
@@ -64,7 +65,7 @@
                         <action selector="btn2Click:" destination="-1" eventType="touchUpInside" id="mbL-D5-hQw"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入手机号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jYo-nY-OtQ">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入手机号" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jYo-nY-OtQ">
                     <rect key="frame" x="149" y="223" width="302" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="NBa-9x-8Zz"/>
@@ -73,11 +74,27 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="done"/>
                 </textField>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jV6-pa-y8h">
+                    <rect key="frame" x="149" y="425" width="302" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="e67-AC-OKi"/>
+                        <constraint firstAttribute="width" constant="302" id="zyi-bm-ntA"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title="微信登录">
+                        <color key="titleColor" red="0.4039215686" green="0.90079656860000001" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="btn3Click:" destination="-1" eventType="touchUpInside" id="MQ2-vz-n34"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="oxL-r3-syv" secondAttribute="centerX" id="0ln-Hx-WiQ"/>
                 <constraint firstItem="KLK-C6-G4z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="4bf-xN-qmi"/>
+                <constraint firstItem="jV6-pa-y8h" firstAttribute="top" secondItem="oxL-r3-syv" secondAttribute="bottom" constant="22" id="CRB-Vp-oIX"/>
                 <constraint firstAttribute="trailing" secondItem="KLK-C6-G4z" secondAttribute="trailing" id="FnP-ZD-gA0"/>
                 <constraint firstItem="jYo-nY-OtQ" firstAttribute="top" secondItem="vD7-jF-CkI" secondAttribute="bottom" constant="15" id="K2o-wi-OHX"/>
                 <constraint firstAttribute="centerX" secondItem="vD7-jF-CkI" secondAttribute="centerX" id="KSg-G8-iZW"/>
@@ -86,6 +103,7 @@
                 <constraint firstItem="vD7-jF-CkI" firstAttribute="top" secondItem="KLK-C6-G4z" secondAttribute="bottom" constant="18" id="t2W-rU-mIV"/>
                 <constraint firstAttribute="centerX" secondItem="agT-Ue-iMg" secondAttribute="centerX" id="tBB-gq-m0v"/>
                 <constraint firstAttribute="centerX" secondItem="jYo-nY-OtQ" secondAttribute="centerX" id="tbB-lA-zQz"/>
+                <constraint firstAttribute="centerX" secondItem="jV6-pa-y8h" secondAttribute="centerX" id="vHe-J3-SJC"/>
                 <constraint firstItem="KLK-C6-G4z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wwu-k3-Wg7"/>
             </constraints>
             <point key="canvasLocation" x="540" y="407"/>

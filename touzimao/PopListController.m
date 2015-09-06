@@ -256,6 +256,12 @@
     cell.txtPercent.text = [NSString stringWithFormat:@"%@%%",[u.yearRate stringValue]];
     cell.btnBuy.data  = u.uuid;
     
+    
+    if (u.avatar) {
+        NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:u.avatar]];
+        [cell.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+    }
+    
     [cell.btnBuy addTarget:self action:@selector(btnBuyClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;

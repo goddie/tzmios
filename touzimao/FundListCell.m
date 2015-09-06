@@ -28,15 +28,15 @@
     
     self.userImg1.layer.mask = mask1;
     self.userImg1.layer.masksToBounds = YES;
-    self.userImg1.image = [UIImage imageNamed:@"header.png"];
+    self.userImg1.image = [UIImage imageNamed:@"holder.png"];
     
     self.userImg2.layer.mask = mask2;
     self.userImg2.layer.masksToBounds = YES;
-    self.userImg2.image = [UIImage imageNamed:@"header.png"];
+    self.userImg2.image = [UIImage imageNamed:@"holder.png"];
     
     self.userImg3.layer.mask = mask3;
     self.userImg3.layer.masksToBounds = YES;
-    self.userImg3.image = [UIImage imageNamed:@"header.png"];
+    self.userImg3.image = [UIImage imageNamed:@"holder.png"];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

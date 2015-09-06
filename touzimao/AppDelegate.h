@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MainController.h"
+#import "WXApi.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,UITabBarControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UITabBarControllerDelegate,WXApiDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (readonly, strong, nonatomic) UINavigationController *activeController;
@@ -17,7 +18,16 @@
 
 -(void)changeRoot;
 
--(void)changeReg;
+-(void)loginPage;
+
++ (AppDelegate *)delegate;
+
+-(void)changeTab:(NSInteger)idx;
+
+/**
+ *  微信token
+ */
+//@property (nonatomic, strong) NSString *wxToken;
 
 @end
 

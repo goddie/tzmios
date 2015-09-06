@@ -8,6 +8,7 @@
 
 #import "CashOutController.h"
 #import "BuyProductInputCell.h"
+#import "UIViewController+Custome.h"
 
 @interface CashOutController ()
 
@@ -55,13 +56,38 @@
 
 -(void)cashClick
 {
+    
+    NSString *uid = [LoginUtil getLocalUUID];
+    
     BuyProductInputCell *cell1 = (BuyProductInputCell*)[self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 
     NSString *cashAmount = cell1.txt1.text ;
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提现成功!" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     
-    [alert show];
+    
+    NSDictionary *parameters = @{
+                                 @"uid":uid,
+                                 @"total":cashAmount
+                                 };
+    
+    
+    [self post:@"cashout/json/add" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+
+
+        }
+        
+        
+        if ([dict objectForKey:@"msg"]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dict objectForKey:@"msg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            
+            [alert show];
+        }
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
 
 }
 

@@ -9,7 +9,9 @@
 #import "HttpUtil.h"
 #import "AFNetworking.h"
 
-@implementation HttpTool
+#define AFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES
+
+@implementation HttpUtil
 
 + (void)get:(NSString *)url params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -17,10 +19,13 @@
     [policy setAllowInvalidCertificates:YES];
     // 1.获得请求管理者
     AFHTTPRequestOperationManager * mgr = [AFHTTPRequestOperationManager manager];
+    
+ 
     // 2.发送GET请求
     [mgr setSecurityPolicy:policy];
-    mgr.requestSerializer = [AFJSONRequestSerializer serializer];
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
+//    mgr.requestSerializer = [AFJSONRequestSerializer serializer];
+//    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
     [mgr GET:url parameters:params
      success:^(AFHTTPRequestOperation *operation, id responseObj) {
          if (success) {

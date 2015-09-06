@@ -13,12 +13,22 @@
 #import "LoginUtil.h"
 #import "ChatController.h"
 #import "JSQChat.h"
+#import "User.h"
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
+#import "AppDelegate.h"
 
 @interface UserPageController ()
 
 @end
 
 @implementation UserPageController
+{
+    User *model;
+    User *login;
+    
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,7 +36,7 @@
     
     [GlobalUtil addTouchToView:self sender:self.img1 action:@selector(img1Click:)];
     
-    self.txtName.text = @"goddie";
+    self.txtName.text = @"";
     
     CALayer *mask = [CALayer layer];
     mask.contents = (id)[[UIImage imageNamed:@"mask.png"] CGImage];
@@ -34,12 +44,14 @@
     
     self.img1.layer.mask = mask;
     self.img1.layer.masksToBounds = YES;
-    self.img1.image = [UIImage imageNamed:@"header.png"];
+    self.img1.image = [UIImage imageNamed:@"avatar.png"];
     
     
     if ([LoginUtil hasFollow:self.uuid]) {
          self.txtFollow.text = @"已关注";
     }
+    
+    [self loadData];
     
 }
 
@@ -49,7 +61,55 @@
 }
 
 
+-(void)loadData
+{
+    
+    if (!self.uuid) {
+        return;
+    }
+    
+    NSDictionary *parameters = @{
+                                 @"uid":self.uuid
+                                 };
+    
+    [self post:@"user/json/detail" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSDictionary *dc = [dict objectForKey:@"data"];
+            model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+            if (model) {
+                [self bindData];
+            }
 
+        }
+    }];
+    
+    
+    NSString *loginId = [LoginUtil getLocalUUID];
+    
+    [self post:@"user/json/detail" params:@{@"uid":loginId} success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSDictionary *dc = [dict objectForKey:@"data"];
+            login = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+        }
+    }];
+    
+}
+
+-(void)bindData
+{
+    self.txtName.text = model.nickname;
+    self.txtTotal.text = [NSString stringWithFormat:@"%@",[model.totalIncome stringValue]];
+    self.txtYesterday.text = [NSString stringWithFormat:@"%@",[model.lastIncome stringValue]];
+    self.txtLv.text = [NSString stringWithFormat:@"%@级投资猫达人",[model.level stringValue]];
+    //self.txtt.text = [NSString stringWithFormat:@"%@",[model.wealth stringValue]];
+    
+    if (model.avatar) {
+        NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:model.avatar]];
+        [self.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+    }
+}
 
 -(void)img1Click:(id)sender
 {
@@ -99,9 +159,15 @@
 }
 
 - (IBAction)btnChatClick:(id)sender {
+    if (login==nil) {
+        [[AppDelegate delegate] loginPage];
+    }
 
     JSQChat *c1 = [[JSQChat alloc] initWithNibName:@"JSQChat" bundle:nil];
     
+    c1.from = login;
+    
+    c1.sendTo = model;
     
     c1.hidesBottomBarWhenPushed = YES;
     

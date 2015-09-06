@@ -17,6 +17,9 @@
 #import "MyButton.h"
 #import "UserPageTableController.h"
 #import "MyFansController.h"
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
+#import "UserProduct.h"
 
 @interface MyFundController ()
 
@@ -44,13 +47,48 @@
     dataArr2 = [NSMutableArray arrayWithCapacity:10];
     curPage = [NSNumber numberWithInt:1];
     
-    if (self.uuid.length==0) {
-        self.uuid = [LoginUtil getLocalUUID];
-    }
+    self.uuid = [LoginUtil getLocalUUID];
+    
+    [self loadData];
+    
+ 
+    __weak MyFundController *wkSelf = self;
+    
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [wkSelf refresh];
+        
+    }];
+    
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [wkSelf loadMore];
+        
+    }];
     
     [self loadData];
 }
 
+
+
+-(void)refresh
+{
+    [dataArr removeAllObjects];
+    curPage = [NSNumber numberWithInt:1];
+    [self loadData];
+}
+
+-(void)loadMore
+{
+    curPage = [NSNumber numberWithInt: [curPage intValue] + 1];
+    
+    [self loadData];
+}
+
+-(void)stopAnimation
+{
+    [self.tableView.pullToRefreshView stopAnimating];
+    [self.tableView.infiniteScrollingView stopAnimating];
+    [self hideHud];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -60,59 +98,34 @@
 
 -(void)loadData
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
     NSDictionary *parameters = @{
                                  @"p":curPage,
                                  @"uid":self.uuid
                                  };
-    [manager POST:[GlobalUtil requestURL:@"traderecord/json/mylist"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"JSON: %@", responseObject);
-        
-        NSDictionary *dict = (NSDictionary *)responseObject;
-        
+    
+    [self post:@"userproduct/json/mylist" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
         if ([[dict objectForKey:@"code"] intValue]==1) {
-            
-            
             NSArray *arr = [dict objectForKey:@"data"];
-            
             for (NSDictionary *dc in arr) {
-                //NSLog(@"%@",dc);
-                
-                TradeRecord *model = [MTLJSONAdapter modelOfClass:[TradeRecord class] fromJSONDictionary:dc error:nil];
-                
-                if (model!=NULL) {
-                    
-                    NSDictionary *dc3 = [dc objectForKey:@"follow"];
-                    
-                    if (![dc3 isEqual:[NSNull null]]) {
-                        User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc3 error:nil];
-                        model.follow = user.uuid;
-                    }
-                    
-                    
-                    
-                    [dataArr addObject:model];
+
+                UserProduct *model1 = [MTLJSONAdapter modelOfClass:[UserProduct class] fromJSONDictionary:dc error:nil];
+                if (model1) {
+                    [dataArr addObject:model1];
                 }
-                
+
                 NSDictionary *dc2 =[dc objectForKey:@"product"];
-                
                 Product *model2 = [MTLJSONAdapter modelOfClass:[Product class] fromJSONDictionary:dc2 error:nil];
                 if (model2!=NULL) {
-                
-                    
                     [dataArr2 addObject:model2];
                 }
             }
-            
             [self.tableView reloadData];
-            
         }
-        
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+
     }];
+    
     
 }
 
@@ -218,40 +231,43 @@
     }
     
     
-    TradeRecord *tr =(TradeRecord*)[dataArr objectAtIndex:indexPath.row];
-    Product *p = (Product*)[dataArr2 objectAtIndex:indexPath.row];
+    UserProduct *model1 = (UserProduct*)[dataArr objectAtIndex:indexPath.row];
+    Product *model2 = (Product*)[dataArr2 objectAtIndex:indexPath.row];
     
-    cell.txtName.text = p.CPJC;
-    cell.txtIncome.text = [NSString stringWithFormat:@"%@",[p.SYLZG stringValue]];
-    cell.txtHold.text =  [NSString stringWithFormat:@"%@",[tr.amount stringValue]];
+    cell.txtName.text = model2.CPJC;
+    cell.txtIncome.text = [GlobalUtil toString:model2.SYLZG];
+    cell.txtHold.text =  [GlobalUtil toString:model1.amount];
     
-    
-    if (tr.follow.length>0) {
+    if (model1.follow) {
         
-        NSString *fid = tr.follow;
+        NSString *fid = [model1.follow objectForKey:@"id"];
         [GlobalUtil addButtonToView:self sender:cell.txtMyFollow action:@selector(myFollow:) data:fid];
-//        [GlobalUtil addButton:self sender:cell.txtMyFollow action:@selector(myFollow:) data:fid];
+
     }else
     {
         cell.txtMyFollow.hidden=YES;
     }
     
-    if ([tr.hasFans intValue]>0) {
-        [GlobalUtil addButtonToView:self sender:cell.txtFollowMe action:@selector(followMe:) data:p.uuid];
-//        [GlobalUtil addButtonToView:self sender:cell.txtFollowMe action:@selector(followMe:) data:p.uuid];
+    if (model1.hasFans) {
+        [GlobalUtil addButtonToView:self sender:cell.txtFollowMe action:@selector(followMe:) data:model2.uuid];
+ 
     }else
     {
         cell.txtFollowMe.hidden=YES;
     }
     
-    if ([tr.isShow intValue]==1) {
+    if (model1.isShow) {
         [cell.btnIsOpen setBackgroundImage:[UIImage imageNamed:@"iconChecked.png"] forState:UIControlStateNormal];
     }else
     {
         [cell.btnIsOpen setBackgroundImage:[UIImage imageNamed:@"iconUnChecked.png"] forState:UIControlStateNormal];
     }
     
-    cell.btnIsOpen.data = @[tr.uuid,[tr.isShow stringValue]];
+    
+
+    NSString *isShow = [GlobalUtil toString:model1.isShow];
+    
+    cell.btnIsOpen.data = @[model1.uuid,isShow];
     [cell.btnIsOpen addTarget:self action:@selector(isOpen:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;

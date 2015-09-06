@@ -275,13 +275,13 @@
                 <outlet property="userName2" destination="f4u-5N-uFm" id="Dpa-ls-42d"/>
                 <outlet property="userName3" destination="Nz3-Sj-N0c" id="Bin-kZ-S5y"/>
                 <outlet property="userPercent1" destination="bvW-4q-ROY" id="eWE-Nr-Hk3"/>
-                <outlet property="userPercent2" destination="3ny-Qg-QME" id="9ej-AX-q8f"/>
-                <outlet property="userPercent3" destination="JIi-hw-77o" id="dL9-oO-oep"/>
+                <outlet property="userPercent2" destination="DIS-A6-FNx" id="j20-O9-6l5"/>
+                <outlet property="userPercent3" destination="OYM-mb-hr0" id="GWy-nF-JOS"/>
                 <outlet property="view1" destination="oOc-Ho-3Pg" id="MXc-9c-ybB"/>
                 <outlet property="view2" destination="3cr-KL-LQa" id="Xpi-6R-NIK"/>
                 <outlet property="view3" destination="SAb-q4-xtc" id="Nhd-Xr-Aga"/>
             </connections>
-            <point key="canvasLocation" x="437" y="736"/>
+            <point key="canvasLocation" x="593" y="553"/>
         </tableViewCell>
     </objects>
     <resources>

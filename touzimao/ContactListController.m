@@ -11,6 +11,9 @@
 #import "TKAddressBook.h"
 #import "ContactListCell.h"
 #import "UserPageTableController.h"
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
+#import "AFNetworking.h"
 
 @interface ContactListController ()
 
@@ -41,6 +44,9 @@
     addressBookTemp = [NSMutableArray array];
     
     [self getMyContact];
+    
+    
+    [self updateContact];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,6 +54,68 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)updateContact
+{
+    NSString *uuid = [LoginUtil getLocalUUID];
+    if (!uuid) {
+        return;
+    }
+    
+    NSMutableArray *postArr = [NSMutableArray arrayWithCapacity:10];
+    
+    
+//    NSMutableDictionary *postDict = [NSMutableDictionary dictionaryWithCapacity:10];
+    
+    for (TKAddressBook *book in addressBookTemp) {
+        NSDictionary *dd = @{@"name":book.name,@"phone":book.tel,@"uid":uuid};
+        [postArr addObject:dd];
+    }
+    
+    if (![NSJSONSerialization isValidJSONObject:postArr])
+    {
+        return;
+        
+    }
+    
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postArr options:NSJSONWritingPrettyPrinted error: &error];
+    NSMutableData *tempJsonData = [NSMutableData dataWithData:jsonData];
+    NSLog(@"Register JSON:%@",[[NSString alloc] initWithData:tempJsonData encoding:NSUTF8StringEncoding]);
+    
+    
+    NSDictionary *parameters = @{
+                                 @"data":postArr
+                                 };
+
+    NSString *url= [baseURL stringByAppendingString:@"usercontact/json/savecontact"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    //manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
+    manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];//如果报接受类型不一致请替换一致text/html或别的
+    
+    
+    //manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+
+    [manager POST:url parameters:postArr success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"%@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        
+        NSLog(@"Error: %@", error);
+        
+    }];
+    
+    
+    
+    
+}
 
 
 -(void)segAdd
@@ -88,6 +156,8 @@
             break;
     }
 //    [self refreshControl];
+    
+    [self updateContact];
 }
 
 

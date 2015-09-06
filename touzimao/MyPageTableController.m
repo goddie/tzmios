@@ -20,6 +20,7 @@
 #import "CashOutController.h"
 #import "UIViewController+Custome.h"
 #import "UIImageView+WebCache.h"
+#import "AppDelegate.h"
 
 @interface MyPageTableController ()
 
@@ -77,9 +78,7 @@
     
  
     
-    if (self.uuid.length==0) {
-        self.uuid= [LoginUtil getLocalUUID];
-    }
+    self.uuid= [LoginUtil getLocalUUID];
 
     
     [self loadData];
@@ -87,6 +86,15 @@
 //    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
 //    self.tableView.tableFooterView = v;
     
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    if (!self.uuid) {
+        [[AppDelegate delegate] loginPage];
+    }
+    
+    [self loadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -164,6 +172,11 @@
 
 -(void)loadData
 {
+    
+    if (!self.uuid) {
+        return;
+    }
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{
                                  @"uid":self.uuid
@@ -187,6 +200,8 @@
             if (model) {
                 
                 self.user = model ;
+                
+                headerView.user = model;
                 
                 headerView.txtName.text = model.nickname;
                 headerView.txtTotal.text = [NSString stringWithFormat:@"%@",[model.totalIncome stringValue]];

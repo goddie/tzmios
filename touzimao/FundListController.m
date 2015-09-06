@@ -8,6 +8,7 @@
 
 #import "FundListController.h"
 #import "FundListCell.h"
+#import "FundListScrollCell.h"
 #import "FundDetailController.h"
 #import "AFNetworking.h"
 #import "MTLJSONAdapter.h"
@@ -38,6 +39,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openCellUser:) name:@"openUser"object:nil];
     
     [self globalConfig];
     
@@ -73,7 +75,13 @@
 //    hud.labelText = @"Loading";
 //}
 
-
+-(void)openCellUser:(NSNotification*)notification
+{
+    NSString *uuid = (NSString*)notification.object;
+    UserPageTableController *c1 = [[UserPageTableController alloc] initWithNibName:@"UserPageTableController" bundle:nil];
+    c1.uuid =uuid;
+    [self.navigationController pushViewController:c1 animated:YES];
+}
 
 -(void)refresh
 {
@@ -206,8 +214,8 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"FundListCell";
-    FundListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"FundListScrollCell";
+    FundListScrollCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(cell==nil){
         
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
@@ -236,52 +244,54 @@
     }
     
     
-    if (arr.count==1) {
-        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:0] error:nil];
-        if(model.avatar)
-        {
-            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
-            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
-        }
-
-        cell.userName1.text = model.nickname;
-        cell.userPercent1.text = [model.lastIncome stringValue];
-        cell.txtPercentTitle.text = @"最高收益";
-        
-        [GlobalUtil addButtonToView:self sender:cell.view1 action:@selector(openUser:) data:model.uuid];
-        
-        cell.view2.hidden=YES;
-        cell.view3.hidden=YES;
-    }
+    [cell addUser:arr];
     
-    if (arr.count==2) {
-        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:1] error:nil];
-        if(model.avatar)
-        {
-            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
-            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
-        }
-        
-        cell.userName2.text = model.nickname;
-        cell.userPercent2.text = [model.lastIncome stringValue];
-        
-        [GlobalUtil addButtonToView:self sender:cell.view2 action:@selector(openUser:) data:model.uuid];
-        
-        cell.view3.hidden=YES;
-    }
-    
-    if (arr.count==3) {
-        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:2] error:nil];
-        if(model.avatar)
-        {
-            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
-            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
-        }
-        
-        cell.userName3.text = model.nickname;
-        cell.userPercent3.text = [model.lastIncome stringValue];
-        [GlobalUtil addButtonToView:self sender:cell.view3 action:@selector(openUser:) data:model.uuid];
-    }
+//    if (arr.count==1) {
+//        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:0] error:nil];
+//        if(model.avatar)
+//        {
+//            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
+//            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
+//        }
+//
+//        cell.userName1.text = model.nickname;
+//        cell.userPercent1.text = [model.lastIncome stringValue];
+//        cell.txtPercentTitle.text = @"最高收益";
+//        
+//        [GlobalUtil addButtonToView:self sender:cell.view1 action:@selector(openUser:) data:model.uuid];
+//        
+//        cell.view2.hidden=YES;
+//        cell.view3.hidden=YES;
+//    }
+//    
+//    if (arr.count==2) {
+//        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:1] error:nil];
+//        if(model.avatar)
+//        {
+//            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
+//            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
+//        }
+//        
+//        cell.userName2.text = model.nickname;
+//        cell.userPercent2.text = [model.lastIncome stringValue];
+//        
+//        [GlobalUtil addButtonToView:self sender:cell.view2 action:@selector(openUser:) data:model.uuid];
+//        
+//        cell.view3.hidden=YES;
+//    }
+//    
+//    if (arr.count==3) {
+//        User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:[arr objectAtIndex:2] error:nil];
+//        if(model.avatar)
+//        {
+//            NSURL *imagePath2 = [NSURL URLWithString:model.avatar];
+//            [cell.userImg1 sd_setImageWithURL:imagePath2 placeholderImage:[UIImage imageNamed:@"holder.png"]];
+//        }
+//        
+//        cell.userName3.text = model.nickname;
+//        cell.userPercent3.text = [model.lastIncome stringValue];
+//        [GlobalUtil addButtonToView:self sender:cell.view3 action:@selector(openUser:) data:model.uuid];
+//    }
     
     
     return cell;

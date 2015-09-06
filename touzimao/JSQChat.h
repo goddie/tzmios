@@ -8,6 +8,7 @@
 #import "JSQMessages.h"
 #import "JSQMessagesViewController.h"
 #import "DemoModelData.h"
+#import "User.h"
 
 
 @class JSQChat;
@@ -25,10 +26,14 @@
 
 @property (weak, nonatomic) id<JSQDemoViewControllerDelegate> delegateModal;
 
-@property (strong, nonatomic) DemoModelData *demoData;
+//@property (strong, nonatomic) DemoModelData *demoData;
 
 - (void)receiveMessagePressed:(UIBarButtonItem *)sender;
 
 - (void)closePressed:(UIBarButtonItem *)sender;
+
+
+@property (strong, nonatomic) User *from;
+@property (strong, nonatomic) User *sendTo;
 
 @end

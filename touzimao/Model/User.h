@@ -91,4 +91,13 @@
  */
 @property (nonatomic, strong) NSNumber *lastIncome;
 
+/**
+ *  猫币
+ */
+@property (nonatomic, strong) NSNumber *catCoin;
+
+/**
+ *  积分
+ */
+@property (nonatomic, strong) NSNumber *score;
 @end

@@ -47,6 +47,7 @@ MBProgressHUD *hud;
     [hud setMode:MBProgressHUDModeIndeterminate];
     [hud setRemoveFromSuperViewOnHide:YES];
     [hud show:YES];
+    [hud hide:YES afterDelay:20.0];
 }
 
 -(void)hideHud {
@@ -103,7 +104,7 @@ MBProgressHUD *hud;
 - (void)post:(NSString *)url params:(NSDictionary *)params success:(void (^)(id responseObj))success failure:(void (^)(NSError *error))failure
 {
     NSString *postURL = [GlobalUtil requestURL:url];
-    [HttpTool post:postURL params:params success:success failure:failure];
+    [HttpUtil post:postURL params:params success:success failure:failure];
 }
 
 @end

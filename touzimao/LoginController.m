@@ -13,6 +13,7 @@
 #import "User.h"
 #import "LoginUtil.h"
 #import "MyPageTableController.h"
+#import "RegThreeController.h"
 
 @interface LoginController ()
 
@@ -58,10 +59,17 @@
             [LoginUtil saveLocalUUID:model];
             
             
+//            RegThreeController *c1  = [[RegThreeController alloc] initWithNibName:@"RegThreeController" bundle:nil];
+//            [self.navigationController pushViewController:c1 animated:YES];
+            
+ 
+            
             [self.navigationController popToRootViewControllerAnimated:YES];
-//            MyPageTableController *c1 = [[MyPageTableController alloc] initWithNibName:@"MyPageTableController" bundle:nil];
-//            c1.uuid = model.uuid;
-//            self.navigationController.viewControllers = @[c1];
+            
+            [self dismissViewControllerAnimated:NO completion:^{
+                
+            }];
+ 
 
             
         }

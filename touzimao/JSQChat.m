@@ -7,12 +7,27 @@
 //
 
 #import "JSQChat.h"
+#import "User.h"
+#import "UIViewController+Custome.h"
+#import "UIImageView+WebCache.h"
+#import "Message.h"
 
 @interface JSQChat ()
 
 @end
 
 @implementation JSQChat
+{
+    NSMutableArray *messages;
+    BOOL isLoading;
+    JSQMessagesBubbleImage *outgoingBubbleImageData;
+    
+    JSQMessagesBubbleImage *incomingBubbleImageData;
+}
+
+
+
+
 
 #pragma mark - View lifecycle
 
@@ -30,18 +45,26 @@
     [super viewDidLoad];
     
     self.title = @"聊天";
+    messages = [NSMutableArray arrayWithCapacity:10];
+    
+    JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
+    
+    outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
+    incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleRedColor]];
     
     /**
      *  You MUST set your senderId and display name
      */
-    self.senderId = kJSQDemoAvatarIdSquires;
-    self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
+    self.senderId = self.from.uuid;
+    self.senderDisplayName = self.from.nickname;
     
     
     /**
      *  Load up our fake data for the demo
      */
-    self.demoData = [[DemoModelData alloc] init];
+    //self.demoData = [[DemoModelData alloc] init];
+    
+    [self getLastMessage];
     
     
     //self.showLoadEarlierMessagesHeader = YES;
@@ -73,6 +96,160 @@
     
     self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    
+    
+    [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(timerUpdate) userInfo:nil repeats:YES];
+}
+
+-(void)getNewMessage
+{
+    if (self.from==nil||self.sendTo==nil) {
+        return;
+    }
+    //[self showHud];
+    
+    isLoading = YES;
+    
+    NSDictionary *parameters = @{
+                                 @"from": self.sendTo.uuid,
+                                 @"sendTo": self.from.uuid,
+                                 @"status": @"0",
+                                 @"p": @"1"
+                                 };
+    //NSLog(@"getNewMessage: %@",parameters);
+    NSLog(@"getNewMessage");
+    [self post:@"message/json/gettomsg" params:parameters success:^(id responseObj) {
+        
+        isLoading = NO;
+        
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+            NSArray *arr = [dict objectForKey:@"data"];
+            for (NSDictionary *dc in arr) {
+                Message *model = [MTLJSONAdapter modelOfClass:[Message class] fromJSONDictionary:dc error:nil];
+                if (model) {
+                    
+                    NSString *content = [GlobalUtil toString:model.content];
+                    NSString *from = [GlobalUtil toString:[model.from objectForKey:@"nickname"]];
+                    NSString *fromId = [GlobalUtil toString:[model.from objectForKey:@"id"]];
+                    
+                    NSDate *d = [NSDate dateWithTimeIntervalSince1970:[model.createdDate doubleValue]/1000];
+                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    
+                    
+                    JSQMessage *jsqm = [[JSQMessage alloc] initWithSenderId:fromId
+                                                          senderDisplayName:from
+                                                                       date:d
+                                                                       text:content];
+                    
+                    [messages addObject:jsqm];
+                }
+            }
+            
+            self.showTypingIndicator = !self.showTypingIndicator;
+            [self finishReceivingMessage];
+            
+        }
+    }];
+}
+
+
+
+
+-(void)getLastMessage
+{
+    
+    if (self.from==nil||self.sendTo==nil) {
+        return;
+    }
+    
+    [self showHud];
+    
+    isLoading = YES;
+    NSDictionary *parameters = @{
+                                 @"from": self.from.uuid,
+                                 @"sendTo": self.sendTo.uuid,
+                                 @"p":@"1"
+                                 };
+    
+    NSLog(@"%@",parameters);
+    
+    [self post:@"message/json/getmsg" params:parameters success:^(id responseObj) {
+        isLoading = NO;
+        
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+            NSArray *arr = [dict objectForKey:@"data"];
+            for (NSDictionary *dc in arr) {
+                Message *model = [MTLJSONAdapter modelOfClass:[Message class] fromJSONDictionary:dc error:nil];
+                
+                
+                
+                
+                if (model) {
+                    
+                    NSString *content = [GlobalUtil toString:model.content];
+                    NSString *from = [GlobalUtil toString:[model.from objectForKey:@"nickname"]];
+                    NSString *fromId = [GlobalUtil toString:[model.from objectForKey:@"id"]];
+                    
+                    NSDate *d = [NSDate dateWithTimeIntervalSince1970:[model.createdDate doubleValue]/1000];
+                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+ 
+                    
+                    JSQMessage *jsqm = [[JSQMessage alloc] initWithSenderId:fromId
+                                                          senderDisplayName:from
+                                                                       date:d
+                                                                       text:content];
+                    
+                    [messages addObject:jsqm];
+                }
+                
+                
+            }
+            
+            
+            [self.collectionView reloadData];
+            
+            
+        }
+        
+        [self hideHud];
+    }];
+    
+}
+
+
+-(void)sendMessage:(NSString*)content
+{
+    if (self.from==nil||self.sendTo==nil) {
+        return;
+    }
+    
+    NSDictionary *parameters = @{
+                                 @"from": self.from.uuid,
+                                 @"sendTo": self.sendTo.uuid,
+                                 @"content":content
+                                 };
+    
+    NSLog(@"%@",parameters);
+    
+    [self post:@"message/json/add" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+        }
+    }];
+}
+-(void)timerUpdate
+{
+    if (isLoading) {
+        return;
+    }
+    [self getNewMessage];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -128,8 +305,8 @@
     /**
      *  Copy last sent message, this will be the new "received" message
      */
-    JSQMessage *copyMessage = [[self.demoData.messages lastObject] copy];
-    
+    //JSQMessage *copyMessage = [[self.demoData.messages lastObject] copy];
+    JSQMessage *copyMessage = [[messages lastObject] copy];
     if (!copyMessage) {
         copyMessage = [JSQMessage messageWithSenderId:kJSQDemoAvatarIdJobs
                                           displayName:kJSQDemoAvatarDisplayNameJobs
@@ -163,12 +340,15 @@
      */
 //    [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
+    [self sendMessage:text];
+    
     JSQMessage *message = [[JSQMessage alloc] initWithSenderId:senderId
                                              senderDisplayName:senderDisplayName
                                                           date:date
                                                           text:text];
     
-    [self.demoData.messages addObject:message];
+    //[self.demoData.messages addObject:message];
+    [messages addObject:message];
     
     [self finishSendingMessageAnimated:YES];
 }
@@ -192,7 +372,8 @@
 
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.demoData.messages objectAtIndex:indexPath.item];
+    return [messages objectAtIndex:indexPath.item];
+    //return [self.demoData.messages objectAtIndex:indexPath.item];
 }
 
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -205,13 +386,15 @@
      *  Otherwise, return your previously created bubble image data objects.
      */
     
-    JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
-    
+    //JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
+    JSQMessage *message = [messages objectAtIndex:indexPath.item];
     if ([message.senderId isEqualToString:self.senderId]) {
-        return self.demoData.outgoingBubbleImageData;
+        //return self.demoData.outgoingBubbleImageData;
+        return outgoingBubbleImageData;
     }
     
-    return self.demoData.incomingBubbleImageData;
+    //return self.demoData.incomingBubbleImageData;
+    return  incomingBubbleImageData;
 }
 
 - (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -228,7 +411,8 @@
      *  Show a timestamp for every 3rd message
      */
     if (indexPath.item % 3 == 0) {
-        JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
+//        JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
+        JSQMessage *message = [messages objectAtIndex:indexPath.item];
         return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
     }
     
@@ -237,7 +421,8 @@
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
+    //JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
+    JSQMessage *message = [messages objectAtIndex:indexPath.item];
     
     /**
      *  iOS7-style sender name labels
@@ -247,7 +432,8 @@
     }
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.demoData.messages objectAtIndex:indexPath.item - 1];
+       // JSQMessage *previousMessage = [self.demoData.messages objectAtIndex:indexPath.item - 1];
+         JSQMessage *previousMessage = [messages objectAtIndex:indexPath.item - 1];
         if ([[previousMessage senderId] isEqualToString:message.senderId]) {
             return nil;
         }
@@ -268,7 +454,8 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.demoData.messages count];
+    //return [self.demoData.messages count];
+    return [messages count];
 }
 
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -292,7 +479,9 @@
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
     
-    JSQMessage *msg = [self.demoData.messages objectAtIndex:indexPath.item];
+    //JSQMessage *msg = [self.demoData.messages objectAtIndex:indexPath.item];
+    
+    JSQMessage *msg = [messages objectAtIndex:indexPath.item];
     
     if (!msg.isMediaMessage) {
         
@@ -372,13 +561,15 @@
     /**
      *  iOS7-style sender name labels
      */
-    JSQMessage *currentMessage = [self.demoData.messages objectAtIndex:indexPath.item];
+    //JSQMessage *currentMessage = [self.demoData.messages objectAtIndex:indexPath.item];
+    JSQMessage *currentMessage = [messages objectAtIndex:indexPath.item];
     if ([[currentMessage senderId] isEqualToString:self.senderId]) {
         return 0.0f;
     }
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.demoData.messages objectAtIndex:indexPath.item - 1];
+        //JSQMessage *previousMessage = [self.demoData.messages objectAtIndex:indexPath.item - 1];
+        JSQMessage *previousMessage = [messages objectAtIndex:indexPath.item - 1];
         if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
             return 0.0f;
         }

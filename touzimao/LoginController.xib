@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
@@ -41,7 +40,7 @@
                         <constraint firstAttribute="height" constant="169" id="fSQ-KH-m6U"/>
                     </constraints>
                 </imageView>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入用户名" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jYo-nY-OtQ">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入用户名" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jYo-nY-OtQ">
                     <rect key="frame" x="149" y="208" width="302" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="302" id="4e0-Ns-FGi"/>
@@ -50,7 +49,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p7W-ta-gLy">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="p7W-ta-gLy">
                     <rect key="frame" x="149" y="281" width="302" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="302" id="Zri-fw-YWC"/>

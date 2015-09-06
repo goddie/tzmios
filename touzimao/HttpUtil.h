@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HttpTool : NSObject
+@interface HttpUtil : NSObject
 /**
  *  发送一个GET请求
  *

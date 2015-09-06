@@ -15,6 +15,7 @@
 #import "LoginUtil.h"
 #import "WebPageController.h"
 #import "TradeListController.h"
+#import "UIImageView+WebCache.h"
 
 @interface UserPageTableController ()
 
@@ -40,6 +41,8 @@
     
     headerView = [[UserPageController alloc] initWithNibName:@"UserPageController" bundle:nil];
     headerView.uuid = self.uuid;
+    //[headerView loadData];
+    
     [self addChildViewController:headerView];
     
  
@@ -115,7 +118,10 @@
             
             User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
    
-            
+            if (model.avatar) {
+                NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:model.avatar]];
+                [headerView.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+            }
             headerView.txtName.text = model.nickname;
             headerView.txtTotal.text = [NSString stringWithFormat:@"%@",[model.totalIncome stringValue]];
             headerView.txtYesterday.text = [NSString stringWithFormat:@"%@",[model.lastIncome stringValue]];
