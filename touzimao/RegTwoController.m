@@ -116,7 +116,7 @@
             [LoginUtil saveLocalUUID:model];
             
             
-            if (!model.nickname) {
+            if (!model.avatar) {
                 RegThreeController *c1  = [[RegThreeController alloc] initWithNibName:@"RegThreeController" bundle:nil];
                 [self.navigationController pushViewController:c1 animated:YES];
             }else
