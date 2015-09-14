@@ -169,12 +169,13 @@
     cell.txtOpt.text = model.optName;
     cell.txtStatus.text = model.optStatus;
     cell.txtAmount.text = [model.amount stringValue];
+    cell.txtTradeNo.text  = [NSString stringWithFormat:@"单号:%@",model.tradeNo];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 84.0f;
+    return 117.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

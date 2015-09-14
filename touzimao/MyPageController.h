@@ -21,5 +21,8 @@
 
 
 @property (strong,nonatomic) User *user;
+@property (nonatomic, strong) NSString *uuid;
+
+-(void)loadData;
 
 @end

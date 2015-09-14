@@ -28,7 +28,6 @@
 @implementation MyFundController
 {
     NSMutableArray *dataArr;
-    NSMutableArray *dataArr2;
     NSNumber *curPage;
 }
 
@@ -41,10 +40,9 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.title = @"已持基金";
+    self.title = @"已投资产品";
     
     dataArr = [NSMutableArray arrayWithCapacity:10];
-    dataArr2 = [NSMutableArray arrayWithCapacity:10];
     curPage = [NSNumber numberWithInt:1];
     
     self.uuid = [LoginUtil getLocalUUID];
@@ -98,12 +96,13 @@
 
 -(void)loadData
 {
-    
+    [self showHud];
     NSDictionary *parameters = @{
                                  @"p":curPage,
-                                 @"uid":self.uuid
+                                 @"uid":self.uuid,
+                                 @"status":@"1"
                                  };
-    
+   
     [self post:@"userproduct/json/mylist" params:parameters success:^(id responseObj) {
         NSDictionary *dict = (NSDictionary *)responseObj;
         if ([[dict objectForKey:@"code"] intValue]==1) {
@@ -115,15 +114,16 @@
                     [dataArr addObject:model1];
                 }
 
-                NSDictionary *dc2 =[dc objectForKey:@"product"];
-                Product *model2 = [MTLJSONAdapter modelOfClass:[Product class] fromJSONDictionary:dc2 error:nil];
-                if (model2!=NULL) {
-                    [dataArr2 addObject:model2];
-                }
+//                NSDictionary *dc2 =[dc objectForKey:@"product"];
+//                Product *model2 = [MTLJSONAdapter modelOfClass:[Product class] fromJSONDictionary:dc2 error:nil];
+//                if (model2!=NULL) {
+//                    [dataArr2 addObject:model2];
+//                }
             }
             [self.tableView reloadData];
+           
         }
-
+        [self stopAnimation];
     }];
     
     
@@ -230,12 +230,21 @@
         cell = [nib objectAtIndex:0];
     }
     
+    if (dataArr.count==0) {
+        return cell;
+    }
     
     UserProduct *model1 = (UserProduct*)[dataArr objectAtIndex:indexPath.row];
-    Product *model2 = (Product*)[dataArr2 objectAtIndex:indexPath.row];
+
+    Product *model2 = [MTLJSONAdapter modelOfClass:[Product class] fromJSONDictionary:model1.product error:nil];
+    if (model2==nil) {
+        return cell;
+    }
+    
+    
     
     cell.txtName.text = model2.CPJC;
-    cell.txtIncome.text = [GlobalUtil toString:model2.SYLZG];
+    cell.txtIncome.text = [GlobalUtil toString:model1.lastIncome];
     cell.txtHold.text =  [GlobalUtil toString:model1.amount];
     
     if (model1.follow) {
@@ -265,10 +274,18 @@
     
     
 
+    
+
     NSString *isShow = [GlobalUtil toString:model1.isShow];
     
     cell.btnIsOpen.data = @[model1.uuid,isShow];
     [cell.btnIsOpen addTarget:self action:@selector(isOpen:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    cell.txtNearBy.text = [NSString stringWithFormat:@"收益率:%.f%%",([model2.SYLZG floatValue]/100.0f)];
+    cell.txtYesterday.hidden = YES;
+    
+    cell.txtTotal.text = [GlobalUtil toString:model1.totalIncome];
     
     return cell;
 }
@@ -283,15 +300,14 @@
     
     MyFundCell *cell = (MyFundCell*)[tableView cellForRowAtIndexPath:indexPath];
     
+    UserProduct *model1 = (UserProduct*)[dataArr objectAtIndex:indexPath.row];
+    
+    Product *model2 = [MTLJSONAdapter modelOfClass:[Product class] fromJSONDictionary:model1.product error:nil];
+    
     FundDetailController *controller = [[FundDetailController alloc] initWithNibName:@"FundDetailController" bundle:nil];
-    
-    
-    
-    Product *p = (Product*)[dataArr2 objectAtIndex:indexPath.row];
-    
+
     controller.title = cell.txtName.text;
-    
-    controller.uuid = p.uuid;
+    controller.uuid = model2.uuid;
     
     [self.navigationController pushViewController:controller animated:YES];
 }

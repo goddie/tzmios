@@ -14,6 +14,8 @@
 #import "UIViewController+Custome.h"
 #import "UIImageView+WebCache.h"
 #import "AFNetworking.h"
+#import "UserContact.h"
+
 
 @interface ContactListController ()
 
@@ -23,6 +25,10 @@
 {
     NSMutableArray *addressBookTemp;
     NSNumber *type;
+    NSMutableArray *dataArr;
+    NSNumber *curPage;
+    UISearchBar *sBar;
+    NSString *key;
 }
 
 
@@ -41,13 +47,66 @@
     type = [NSNumber numberWithInt:0];
     [self segAdd];
     
+    [self addRight];
+    
     addressBookTemp = [NSMutableArray array];
+    NSString *isSaved = [GlobalUtil toString:[GlobalUtil getLocal:@"contact"]];
     
-    [self getMyContact];
+    if (![isSaved isEqualToString:@"1"]) {
+    //if (YES) {
+        [self getMyContact];
+        [self updateContact];
+        
+        [GlobalUtil saveLocal:@"contact" value:@"1"];
+    }
+    
+
     
     
-    [self updateContact];
+    dataArr = [NSMutableArray arrayWithCapacity:10];
+    curPage = [NSNumber numberWithInteger:1];
+    
+    
+    __weak ContactListController *wkSelf = self;
+    
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [wkSelf refresh];
+        
+    }];
+    
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [wkSelf loadMore];
+        
+    }];
+    
+    [self loadData];
+
 }
+
+
+
+-(void)refresh
+{
+    [dataArr removeAllObjects];
+    curPage = [NSNumber numberWithInt:1];
+    [self loadData];
+}
+
+-(void)loadMore
+{
+    curPage = [NSNumber numberWithInt: [curPage intValue] + 1];
+    
+    [self loadData];
+}
+
+-(void)stopAnimation
+{
+    [self.tableView.pullToRefreshView stopAnimating];
+    [self.tableView.infiniteScrollingView stopAnimating];
+    [self hideHud];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -55,13 +114,22 @@
 }
 
 
++ (NSString*)dictionaryToJson:(NSDictionary *)dic
+
+{
+    
+    NSError *parseError = nil;
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+}
+
+
 -(void)updateContact
 {
-    NSString *uuid = [LoginUtil getLocalUUID];
-    if (!uuid) {
-        return;
-    }
-    
+    NSString *uuid = [self checkLogin];
     NSMutableArray *postArr = [NSMutableArray arrayWithCapacity:10];
     
     
@@ -78,32 +146,37 @@
         
     }
     
-    
+ 
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postArr options:NSJSONWritingPrettyPrinted error: &error];
     NSMutableData *tempJsonData = [NSMutableData dataWithData:jsonData];
-    NSLog(@"Register JSON:%@",[[NSString alloc] initWithData:tempJsonData encoding:NSUTF8StringEncoding]);
+    
+    NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"Register JSON:%@",jsonStr);
     
     
     NSDictionary *parameters = @{
-                                 @"data":postArr
+                                 @"data":jsonStr,
+                                 @"uid":uuid
                                  };
 
     NSString *url= [baseURL stringByAppendingString:@"usercontact/json/savecontact"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
+    //manager.requestSerializer = [AFJSONRequestSerializer serializer];
+
     
     //manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+    //manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
     
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];//如果报接受类型不一致请替换一致text/html或别的
+    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];//如果报接受类型不一致请替换一致text/html或别的
     
     
     //manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
 
-    [manager POST:url parameters:postArr success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"%@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error){
@@ -157,9 +230,45 @@
     }
 //    [self refreshControl];
     
-    [self updateContact];
+//    [self updateContact];
+    
+    [dataArr removeAllObjects];
+    
+    [self refresh];
 }
 
+-(void)loadData
+{
+    NSString *uid = [self checkLogin];
+    
+    NSDictionary *parameters = @{
+                                 @"p":curPage,
+                                 @"uid":uid,
+                                 @"type":type
+                                 };
+    [self showHud];
+    [self post:@"usercontact/json/list" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSArray *arr = [dict objectForKey:@"data"];
+            
+            NSError *err = nil;
+            
+            for (NSDictionary *dc in arr) {
+                UserContact *model = [MTLJSONAdapter modelOfClass:[UserContact class] fromJSONDictionary:dc error:&err];
+                if(model)
+                {
+                    [dataArr addObject:model];
+                }
+                
+                //NSLog(@"%@",err);
+            }
+            
+        }
+        [self.tableView reloadData];
+        [self stopAnimation];
+    }];
+}
 
 
 -(void)getMyContact
@@ -244,6 +353,10 @@
                 switch (j) {
                     case 0: {// Phone number
                         addressBook.tel = (__bridge NSString*)value;
+//                        NSString * strippedNumber = [addressBook.tel stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [addressBook.tel length])];
+//                        
+//                        addressBook.tel = strippedNumber;
+                        
                         break;
                     }
                     case 1: {// Email
@@ -266,6 +379,101 @@
 }
 
 
+-(void)deleteContact:(UserContact*)userContact
+{
+    NSString *uid = [self checkLogin];
+    
+//    [LoginUtil deleteFollowData:userContact.uuid];
+    
+    NSDictionary *parameters = @{
+                                 @"cid":userContact.uuid
+                                 };
+    [self showHud];
+    [self post:@"usercontact/json/delete" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+            
+            
+        }
+        [self stopAnimation];
+    }];
+}
+
+
+-(void)addRight
+{
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    //[btn setBackgroundImage:[UIImage imageNamed:@"iconSearch.png"] forState:UIControlStateNormal];
+    [btn setTitle:@"刷新" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [btn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.rightBarButtonItem = right;
+}
+
+-(void)rightClick
+{
+    [self refresh];
+}
+
+
+-(void)search
+{
+    
+    if (!key) {
+        return;
+    }
+    
+    [self showHud];
+    
+    NSDictionary *parameters = @{
+                                 @"s":key,
+                                 @"type":type
+                                 };
+    [dataArr removeAllObjects];
+    [self post:@"usercontact/json/search" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSArray *arr = [dict objectForKey:@"data"];
+            for (NSDictionary *dc in arr) {
+                UserContact *model = [MTLJSONAdapter modelOfClass:[UserContact class] fromJSONDictionary:dc error:nil];
+                [dataArr addObject:model];
+                //NSLog(@"%@",model);
+            }
+            
+            [self.tableView reloadData];
+            
+        }
+        
+        [self hideHud];
+        
+    }];
+    
+}
+
+-(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    //    [self searchBar:self.searchBar textDidChange:nil];
+    [sBar resignFirstResponder];
+    
+    key = searchBar.text;
+    
+    [self search];
+}
+
+-(UIView*)addSearchBar
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
+    sBar = [[UISearchBar alloc] initWithFrame:view.frame];
+    sBar.delegate =self;
+    
+    [view addSubview:sBar];
+    
+    
+    
+    return view;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -275,7 +483,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  
-    return addressBookTemp.count;
+    return dataArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -287,9 +495,45 @@
         cell = [nib objectAtIndex:0];
     }
     
-    TKAddressBook *book = [addressBookTemp objectAtIndex:indexPath.row];
-    cell.txtName.text = book.name;
+    UserContact *userContact = (UserContact*)[dataArr objectAtIndex:indexPath.row];
+    User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:userContact.contact error:nil];
     
+    
+    if (user.totalRate) {
+        NSString *str = [NSString stringWithFormat:@"%.f%%",[user.totalRate floatValue] * 100];
+        cell.txtPercent.text = str;
+    }
+    
+    //TKAddressBook *book = [addressBookTemp objectAtIndex:indexPath.row];
+    cell.txtName.text = [NSString stringWithFormat:@"%@ (%@)",userContact.name,user.nickname];
+    if (user.avatar) {
+        NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:user.avatar]];
+        [cell.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+    }
+    
+    
+    NSInteger isFan  = [userContact.isFan integerValue];
+    NSInteger isFollow = [userContact.isFollow integerValue];
+    
+    //互不关注
+    if (isFan==0 && isFollow==0) {
+        cell.img2.image = [UIImage imageNamed:@"iconContact3.png"];
+    }
+    
+    //互相关注
+    if (isFan==1 && isFollow==1) {
+        cell.img2.image = [UIImage imageNamed:@"iconContact1.png"];
+    }
+    
+    //关注我
+    if (isFan==1 && isFollow==0) {
+        cell.img2.image = [UIImage imageNamed:@"iconContact2.png"];
+    }
+    
+    //被我关注
+    if (isFan==0 && isFollow==1) {
+        cell.img2.image = [UIImage imageNamed:@"iconContact4.png"];
+    }
     
     return cell;
 }
@@ -303,9 +547,60 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ContactListCell *cell = (ContactListCell*)[tableView cellForRowAtIndexPath:indexPath];
     
+    
+    UserContact *userContact = (UserContact*)[dataArr objectAtIndex:indexPath.row];
+    User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:userContact.contact error:nil];
+    
+//    User *user  = [dataArr objectAtIndex:indexPath.row];
+
     UserPageTableController *controller = [[UserPageTableController alloc] initWithNibName:@"UserPageTableController" bundle:nil];
     controller.title = cell.txtName.text;
+    controller.uuid = user.uuid;
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+
+
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        UserContact *userContact = (UserContact*)[dataArr objectAtIndex:indexPath.row];
+        User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:userContact.contact error:nil];
+
+        
+        //User *user  = [dataArr objectAtIndex:indexPath.row];
+        [self deleteContact:userContact];
+        
+        [dataArr removeObjectAtIndex:indexPath.row];
+        // Delete the row from the data source.
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除";
+}
+
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [self addSearchBar];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return  50.0f;
 }
 
 /*

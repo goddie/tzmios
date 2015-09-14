@@ -24,6 +24,10 @@
 
 +(void)addFollowData:(NSString*)uuid;
 
++(void)deleteFollowData:(NSString*)uuid;
+
 +(BOOL)hasFollow:(NSString*)uuid;
+
+
 
 @end

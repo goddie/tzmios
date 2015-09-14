@@ -76,7 +76,6 @@
     
     tradeRecord = [TradeRecord new];
     
-    
     if (self.uuid.length>0) {
         [self loadData];
     }
@@ -147,6 +146,14 @@
     BuyProductInputCell *cell = (BuyProductInputCell*)[self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1]];
     total = cell.txt1.text;
     
+    if (total.length==0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入购买金额" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        
+        [alert show];
+        
+        return;
+    }
+    
     NSDictionary *parameters = @{
                                  @"pid":self.uuid,
                                  @"uid":uid,
@@ -155,13 +162,15 @@
                                  @"payType":payType
                                  };
     
+    [self showHud];
+    
     [self post:@"order/json/add" params:parameters success:^(id responseObj) {
         NSDictionary *dict = (NSDictionary *)responseObj;
         if ([[dict objectForKey:@"code"] intValue]==1) {
             orderDict = [[dict objectForKey:@"data"] mutableCopy];
             [self addOrder];
         }
-
+        [self hideHud];
     }];
 
 }
@@ -435,7 +444,7 @@
         if (indexPath.row==0) {
             WebPageController *web = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
             web.title = @"购买须知";
-            web.URL = [baseURL stringByAppendingFormat:@"product/page/notice?pid=%@&type=1",self.uuid];
+            web.URL = [baseURL stringByAppendingFormat:@"productdetail/page/detail?pid=%@&type=1",self.uuid];
             [self.navigationController pushViewController:web animated:YES];
         }
         
@@ -443,7 +452,7 @@
         if (indexPath.row==1) {
             WebPageController *web = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
             web.title = @"产品详情";
-            web.URL = [baseURL stringByAppendingFormat:@"product/page/notice?pid=%@&type=2",self.uuid];
+            web.URL = [baseURL stringByAppendingFormat:@"productetail/page/detail?pid=%@&type=2",self.uuid];
             
             [self.navigationController pushViewController:web animated:YES];
         }

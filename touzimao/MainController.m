@@ -60,7 +60,6 @@
 
     UIViewController *nav4;
     MyPageTableController *c1 = [[MyPageTableController alloc] initWithNibName:@"MyPageTableController" bundle:nil];
-    c1.uuid = [LoginUtil getLocalUUID];
     nav4 = c1;
 
 //    if (!username) {

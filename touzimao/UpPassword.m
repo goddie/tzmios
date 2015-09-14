@@ -43,20 +43,31 @@
     
     if([self.txt1.text length]==0)
     {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入新密码。" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
         return;
     }
     
     if([self.txt2.text length]==0)
     {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请再次确认密码。" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
         return;
     }
     
     if (![self.txt1.text isEqualToString:self.txt2.text]) {
         
-        UIAlertView *alert =  [[UIAlertView alloc] initWithTitle:@"错误" message:@"两次密码不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView *alert =  [[UIAlertView alloc] initWithTitle:@"错误" message:@"两次密码不一致。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         
         [alert show];
         
+        return;
+    }
+    
+    if (!self.txt3.text) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入验证码。" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
         return;
     }
     
@@ -70,7 +81,8 @@
     
     NSDictionary *parameters = @{
                                  @"password":self.txt1.text,
-                                 @"uid":uid
+                                 @"uid":uid,
+                                 @"code":self.txt3.text
                                  };
     
     
@@ -105,8 +117,30 @@
 
 
 - (IBAction)btn2Click:(id)sender {
-    LoginController *c1 = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
-    [self.navigationController pushViewController:c1 animated:YES];
+    
+    NSString *uid = [self checkLogin];
+    
+    self.btn2.enabled = NO;
+    
+    NSDictionary *parameters = @{
+                                 @"uid":uid
+                                 };
+    [self showHud];
+    
+    [self post:@"user/json/uppasswordsms" params:parameters success:^(id responseObj) {
+        
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码已发送到注册手机号。" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alert show];
+
+        }
+        
+        [self hideHud];
+        
+    }];
 
 }
 

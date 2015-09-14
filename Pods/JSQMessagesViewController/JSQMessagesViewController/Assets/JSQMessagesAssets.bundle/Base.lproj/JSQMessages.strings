@@ -22,8 +22,8 @@
 //  https://github.com/jessesquires/JSQMessagesViewController/issues/237
 //  ********************************
 
-"load_earlier_messages" = "打开聊天记录";
+"load_earlier_messages" = "Load Earlier";
 
-"send" = "发送";
+"send" = "Send";
 
-"new_message" = "输入聊天内容";
+"new_message" = "New Message";

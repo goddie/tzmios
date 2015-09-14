@@ -24,6 +24,9 @@
 
 - (void)post:(NSString *)url params:(NSDictionary *)params success:(void (^)(id responseObj))success;
 
-
+/**
+ *  是否登录，没登录去登录
+ */
+-(NSString*)checkLogin;
 
 @end

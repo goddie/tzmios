@@ -17,6 +17,7 @@
 
 #import "UIViewController+Custome.h"
 #import "UIImageView+WebCache.h"
+#import "UserProductList.h"
 
 @interface PopListController ()
 
@@ -183,11 +184,18 @@
 
 -(void)btnBuyClick:(MyButton*)sender
 {
-    NSString *data = (NSString *)sender.data;
-    
-    TradeListController *c1 = [[TradeListController alloc] initWithNibName:@"TradeListController" bundle:nil];
-    c1.fid = data;
+    User *u = (User *)sender.data;
+
+    UserProductList *c1 = [[UserProductList alloc] initWithNibName:@"UserProductList" bundle:nil];
+    c1.uid = u.uuid;
+    c1.status = [NSNumber numberWithInteger:1];
     [self.navigationController pushViewController:c1 animated:YES];
+    return;
+
+    
+//    TradeListController *c1 = [[TradeListController alloc] initWithNibName:@"TradeListController" bundle:nil];
+//    c1.fid = data;
+//    [self.navigationController pushViewController:c1 animated:YES];
 }
 
 -(UIView*)addSearchBar
@@ -252,7 +260,7 @@
     cell.txtName.text = u.nickname;
     cell.txtInfo.text = u.info;
     cell.txtFollows.text = [u.followBuy stringValue];
-    cell.txtTotal.text = [NSString stringWithFormat:@"%@%%",[u.totalRate stringValue]];
+    cell.txtTotal.text = [NSString stringWithFormat:@"%.1f%%",[u.totalRate floatValue]];
     cell.txtPercent.text = [NSString stringWithFormat:@"%@%%",[u.yearRate stringValue]];
     cell.btnBuy.data  = u.uuid;
     
@@ -262,7 +270,7 @@
         [cell.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
     }
     
-    [cell.btnBuy addTarget:self action:@selector(btnBuyClick:) forControlEvents:UIControlEventTouchUpInside];
+    [GlobalUtil addButtonToView:self sender:cell.btnBuy action:@selector(btnBuyClick:) data:u];
     
     return cell;
 }

@@ -16,6 +16,8 @@
 #import "WebPageController.h"
 #import "TradeListController.h"
 #import "UIImageView+WebCache.h"
+#import "UserProductList.h"
+#import "UserIntroduce.h"
 
 @interface UserPageTableController ()
 
@@ -25,6 +27,7 @@
 {
     NSArray *buttons;
     UserPageController *headerView;
+    User *model;
  
 }
 
@@ -116,7 +119,7 @@
             NSDictionary *dc = [dict objectForKey:@"data"];
             
             
-            User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+            model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
    
             if (model.avatar) {
                 NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:model.avatar]];
@@ -180,23 +183,47 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    if (indexPath.row == 1) {
-        
-        TradeListController *c1 = [[TradeListController alloc] initWithNibName:@"TradeListController" bundle:nil];
-        c1.uuid = self.uuid;
-        
+    //投资组合
+    if (indexPath.row == 0) {
+
+        UserProductList *c1 = [[UserProductList alloc] initWithNibName:@"UserProductList" bundle:nil];
+        c1.uid = self.uuid;
+        c1.status = [NSNumber numberWithInteger:1];
         [self.navigationController pushViewController:c1 animated:YES];
-        
         return;
+        
+//        TradeListController *c1 = [[TradeListController alloc] initWithNibName:@"TradeListController" bundle:nil];
+//        c1.uuid = self.uuid;
+//        
+//        [self.navigationController pushViewController:c1 animated:YES];
+//        
+//        return;
+    }
+    
+    //投资历史
+    if (indexPath.row == 1) {
+
+        UserProductList *c1 = [[UserProductList alloc] initWithNibName:@"UserProductList" bundle:nil];
+        c1.uid = self.uuid;
+        c1.status = [NSNumber numberWithInteger:0];
+        [self.navigationController pushViewController:c1 animated:YES];
+        return;
+        
+//        TradeListController *c1 = [[TradeListController alloc] initWithNibName:@"TradeListController" bundle:nil];
+//        c1.uuid = self.uuid;
+//        
+//        [self.navigationController pushViewController:c1 animated:YES];
+//        
+//        return;
     }
     
     
-    WebPageController *web = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
-    web.title = [buttons objectAtIndex:indexPath.row];
+    UserIntroduce *c1 = [[UserIntroduce alloc] initWithNibName:@"UserIntroduce" bundle:nil];
+    c1.content = model.info;
+//    WebPageController *web = [[WebPageController alloc] initWithNibName:@"WebPageController" bundle:nil];
+//    web.title = [buttons objectAtIndex:indexPath.row];
     
-    [self.navigationController pushViewController:web animated:YES];
+    [self.navigationController pushViewController:c1 animated:YES];
 }
  
 @end

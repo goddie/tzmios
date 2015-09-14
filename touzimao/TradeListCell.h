@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtOpt;
 @property (weak, nonatomic) IBOutlet UILabel *txtStatus;
 @property (weak, nonatomic) IBOutlet UILabel *txtAmount;
+@property (weak, nonatomic) IBOutlet UILabel *txtTradeNo;
 
 @end

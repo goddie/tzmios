@@ -12,6 +12,9 @@
 #import "UIImageView+WebCache.h"
 #import "UIViewController+Custome.h"
 #import "AFNetworking.h"
+#import "ConfigCell.h"
+#import "EditUserInfo.h"
+#import "UpPhone.h"
 
 @interface UserInfo ()
 
@@ -29,7 +32,7 @@
     titles = @[@"头像",@"昵称",@"手机号",@"个人介绍"];
     dataArr = [NSMutableArray arrayWithCapacity:10];
     self.title = @"个人资料";
-    [self addRightNavButton];
+//    [self addRightNavButton];
     [self bindUser];
 }
 
@@ -41,8 +44,39 @@
 
 
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self loadData];
+}
+
+
+
+-(void)loadData
+{
+    NSString *uid = [self checkLogin];
+    NSDictionary *parameters = @{
+                                 @"uid":uid
+                                 };
+    
+    [self post:@"user/json/detail" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSDictionary *dc = [dict objectForKey:@"data"];
+            self.user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+            if (self.user) {
+                [self bindUser];
+            }
+        }
+    }];
+    
+}
+
+
+
 -(void)bindUser
 {
+    [dataArr removeAllObjects];
+    
     [dataArr addObject:@"avatar"];
     [dataArr addObject:[GlobalUtil toString:self.user.nickname]];
     [dataArr addObject:[GlobalUtil toString:self.user.phone]];
@@ -61,6 +95,8 @@
             }
         }
     }
+    
+    [self.tableView reloadData];
 }
 
 
@@ -383,16 +419,16 @@
 
     
     
-    static NSString *CellIdentifier = @"SingleInputCell";
-    SingleInputCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"ConfigCell";
+    ConfigCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(cell==nil){
         
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
     
-    cell.txt1.text = [titles objectAtIndex:indexPath.row];
-    cell.value1.text = [dataArr objectAtIndex:indexPath.row];
+    cell.txtName.text = [titles objectAtIndex:indexPath.row];
+    cell.txtValue.text = [dataArr objectAtIndex:indexPath.row];
     return cell;
 
 }
@@ -409,6 +445,27 @@
                                       otherButtonTitles:@"拍摄",@"从相册选择",nil];
         actionSheet.tag = 200;
         [actionSheet showInView:self.view];
+    }
+    
+    if (indexPath.row==1) {
+        EditUserInfo *c1 = [[EditUserInfo alloc] initWithNibName:@"EditUserInfo" bundle:nil];
+        c1.nickname = self.user.nickname;
+        c1.toEdit = @"nickname";
+        [self.navigationController pushViewController:c1 animated:YES];
+    }
+    
+    if (indexPath.row==2) {
+    
+        UpPhone *c1 = [[UpPhone alloc] initWithNibName:@"UpPhone" bundle:nil];
+        [self.navigationController pushViewController:c1 animated:YES];
+        
+    }
+    
+    if (indexPath.row==3) {
+        EditUserInfo *c1 = [[EditUserInfo alloc] initWithNibName:@"EditUserInfo" bundle:nil];
+        c1.info = self.user.info;
+        c1.toEdit = @"info";
+        [self.navigationController pushViewController:c1 animated:YES];
     }
 }
 

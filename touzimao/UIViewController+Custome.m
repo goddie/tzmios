@@ -14,6 +14,7 @@
 #import "User.h"
 #import "LoginUtil.h"
 #import "HttpUtil.h"
+#import "AppDelegate.h"
 
 
 @implementation UIViewController (Custome)
@@ -43,7 +44,7 @@ MBProgressHUD *hud;
         //        [[UIApplication sharedApplication].keyWindow addSubview:hud];
     }
     
-    [hud setLabelText:@"Loading"];
+    [hud setLabelText:@"加载中"];
     [hud setMode:MBProgressHUDModeIndeterminate];
     [hud setRemoveFromSuperViewOnHide:YES];
     [hud show:YES];
@@ -106,5 +107,16 @@ MBProgressHUD *hud;
     NSString *postURL = [GlobalUtil requestURL:url];
     [HttpUtil post:postURL params:params success:success failure:failure];
 }
+
+-(NSString*)checkLogin
+{
+    NSString *uid = [LoginUtil getLocalUUID];
+    if (!uid) {
+        [[AppDelegate delegate] loginPage];
+    }
+    
+    return uid;
+}
+
 
 @end

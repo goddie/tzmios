@@ -9,26 +9,63 @@
 #import "CashOutController.h"
 #import "BuyProductInputCell.h"
 #import "UIViewController+Custome.h"
+#import "SingleInputCell.h"
+#import "ConfigCell.h"
 
 @interface CashOutController ()
 
 @end
 
 @implementation CashOutController
+{
+    NSArray *dataArr;
+    User *user;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     
     self.title = @"交易提现";
     
     self.tableView.tableFooterView =  [self addButton];
     self.tableView.backgroundColor = [UIColor whiteColor];
+    
+    dataArr = @[@"账户余额",@"提现金额"];
+    
+    [self loadData];
+    
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+-(void)loadData
+{
+
+    NSString *uid = [self checkLogin];
+    
+    NSDictionary *parameters = @{
+                                 @"uid":uid
+                                 };
+    [self showHud];
+    [self post:@"user/json/detail" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSDictionary *dc = [dict objectForKey:@"data"];
+            user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+            [self.tableView reloadData];
+        }
+        [self hideHud];
+    }];
+    
+}
+
 
 
 - (UIView*)addButton
@@ -56,37 +93,27 @@
 
 -(void)cashClick
 {
-    
-    NSString *uid = [LoginUtil getLocalUUID];
-    
-    BuyProductInputCell *cell1 = (BuyProductInputCell*)[self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-
-    NSString *cashAmount = cell1.txt1.text ;
-    
-    
-    
+    NSString *uid = [self checkLogin];
+    SingleInputCell *cell1 = (SingleInputCell*)[self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    NSString *cashAmount = cell1.value1.text ;
     NSDictionary *parameters = @{
                                  @"uid":uid,
                                  @"total":cashAmount
                                  };
     
-    
     [self post:@"cashout/json/add" params:parameters success:^(id responseObj) {
         NSDictionary *dict = (NSDictionary *)responseObj;
         if ([[dict objectForKey:@"code"] intValue]==1) {
-            
-
-
+            [self.navigationController popViewControllerAnimated:YES];
         }
-        
         
         if ([dict objectForKey:@"msg"]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dict objectForKey:@"msg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             
             [alert show];
         }
-        
-        [self.navigationController popViewControllerAnimated:YES];
+
+       
     }];
 
 }
@@ -101,7 +128,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 1;
+    return dataArr.count;
 }
 
 
@@ -112,15 +139,39 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"BuyProductInputCell";
-    BuyProductInputCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+    if (indexPath.row==1) {
+        static NSString *CellIdentifier = @"SingleInputCell";
+        SingleInputCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if(cell==nil){
+            
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        cell.txt1.text = [dataArr objectAtIndex:indexPath.row];
+        cell.value1.placeholder = @"输入提现金额";
+//        [cell.value1 becomeFirstResponder];
+        
+        return cell;
+    }
+    
+    
+    static NSString *CellIdentifier = @"ConfigCell";
+    ConfigCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    cell.accessoryType = UITableViewCellAccessoryNone ;
+    
     if(cell==nil){
         
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
     
-    cell.txt1.placeholder = @"输入提现金额";
+    cell.txtName.text = [dataArr objectAtIndex:indexPath.row];
+    if (user) {
+        cell.txtValue.text = [GlobalUtil toString:user.wealth];
+    }
     
     return cell;
 }

@@ -21,6 +21,7 @@
 #import "UIViewController+Custome.h"
 #import "UIImageView+WebCache.h"
 #import "AppDelegate.h"
+#import "ChargeController.h"
 
 @interface MyPageTableController ()
 
@@ -37,11 +38,13 @@
     [super viewDidLoad];
     
     //NSLog(@"MyPageTableController viewDidLoad");
+    self.uuid= [self checkLogin];
     
-    buttons = [NSArray arrayWithObjects:@"交易提现",@"已持基金",@"交易明细",@"猫币账户",nil];
+    
+    buttons = [NSArray arrayWithObjects:@"猫猫宝充值",@"交易提现",@"已投资产品",@"交易明细",@"猫币账户",nil];
     
     headerView = [[MyPageController alloc] initWithNibName:@"MyPageController" bundle:nil];
-    headerView.user =self.user;
+//    [headerView loadData];
     [self addChildViewController:headerView];
     
     
@@ -68,39 +71,66 @@
    
     self.title = @"个人中心";
     
-    
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 19, 19)];
-    [btn setBackgroundImage:[UIImage imageNamed:@"iconSetting.png"] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    self.navigationItem.rightBarButtonItem = right;
-    
+    [self addRight];
     
  
-    
-    self.uuid= [LoginUtil getLocalUUID];
 
-    
-    [self loadData];
+
     
 //    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
 //    self.tableView.tableFooterView = v;
     
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)addRight
 {
-    if (!self.uuid) {
-        [[AppDelegate delegate] loginPage];
-    }
-    
-    [self loadData];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 19, 19)];
+    [btn setBackgroundImage:[UIImage imageNamed:@"iconSetting.png"] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.rightBarButtonItem = right;
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self loadData];
+}
+
+
+-(void)loadData
+{
+    self.uuid = [self checkLogin];
+    
+    if (!self.uuid) {
+        return;
+    }
+    
+    NSDictionary *parameters = @{
+                                 @"uid":self.uuid
+                                 };
+    //     NSLog(@"%@",self.uuid);
+    [self showHud];
+    [self post:@"user/json/detail" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSDictionary *dc = [dict objectForKey:@"data"];
+            self.user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+
+        }
+        
+        [self.tableView reloadData];
+        [self hideHud];
+    }];
+    
+}
+
+
 
 -(void)imgClick:(id)sender
 {
@@ -111,6 +141,9 @@
 }
 
 
+/**
+ *  系统设置
+ */
 -(void)rightClick
 {
     SysConfigController *controller = [[SysConfigController alloc] initWithNibName:@"SysConfigController" bundle:nil];
@@ -147,7 +180,7 @@
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{
-                                 @"uuid":self.uuid
+                                 @"uid":self.uuid
                                  };
     NSLog(@"%@",self.uuid);
     
@@ -170,62 +203,7 @@
 
 }
 
--(void)loadData
-{
-    
-    if (!self.uuid) {
-        return;
-    }
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{
-                                 @"uid":self.uuid
-                                 };
-     NSLog(@"%@",self.uuid);
-    
-    [manager POST:[GlobalUtil requestURL:@"user/json/detail"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"JSON: %@", responseObject);
-        
-        NSDictionary *dict = (NSDictionary *)responseObject;
-        
-        if ([[dict objectForKey:@"code"] intValue]==1) {
-            
-            
-            NSDictionary *dc = [dict objectForKey:@"data"];
-            
-           
-            
-            User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
-            
-            if (model) {
-                
-                self.user = model ;
-                
-                headerView.user = model;
-                
-                headerView.txtName.text = model.nickname;
-                headerView.txtTotal.text = [NSString stringWithFormat:@"%@",[model.totalIncome stringValue]];
-                headerView.txtYesterday.text = [NSString stringWithFormat:@"%@",[model.lastIncome stringValue]];
-                headerView.txtLevel.text = [NSString stringWithFormat:@"%@级投资猫达人",[model.level stringValue]];
-                headerView.txtWealth.text = [NSString stringWithFormat:@"%@",[model.wealth stringValue]];
-                
-                if (self.user.avatar) {
-                    NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:self.user.avatar]];
-                    [headerView.img sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
-                }
-            
-            }
-            
 
-        }
-        
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
-    
-}
 
 
 
@@ -265,7 +243,14 @@
         cell = [nib objectAtIndex:0];
     }
     
+    //提现金额
+    if (indexPath.row==1) {
+        cell.txt2.text = [GlobalUtil toString:self.user.wealth];
+    }
+    
     cell.txt1.text = [buttons objectAtIndex:indexPath.row];
+    
+
     
     return cell;
 }
@@ -273,23 +258,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.row == 0) {
-        CashOutController *nav = [[CashOutController alloc] initWithNibName:@"CashOutController" bundle:nil];
+        ChargeController *nav = [[ChargeController alloc] initWithNibName:@"ChargeController" bundle:nil];
         [self.navigationController pushViewController:nav animated:YES];
     }
     
     if (indexPath.row == 1) {
+        CashOutController *nav = [[CashOutController alloc] initWithNibName:@"CashOutController" bundle:nil];
+        [self.navigationController pushViewController:nav animated:YES];
+    }
+    
+    if (indexPath.row == 2) {
         MyFundController *nav = [[MyFundController alloc] initWithNibName:@"MyFundController" bundle:nil];
         [self.navigationController pushViewController:nav animated:YES];
     }
     
     
-    if (indexPath.row == 2) {
+    if (indexPath.row == 3) {
         TradeListController *nav = [[TradeListController alloc] initWithNibName:@"TradeListController" bundle:nil];
         [self.navigationController pushViewController:nav animated:YES];
     }
     
-    if (indexPath.row == 3) {
+    if (indexPath.row == 4) {
         MyCatAccountController *nav = [[MyCatAccountController alloc] initWithNibName:@"MyCatAccountController" bundle:nil];
         [self.navigationController pushViewController:nav animated:YES];
     }

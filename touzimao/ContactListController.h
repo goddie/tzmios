@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ContactListController : UITableViewController
+@interface ContactListController : UITableViewController<UISearchBarDelegate>
 
 @end
 

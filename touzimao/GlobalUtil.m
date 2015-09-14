@@ -294,6 +294,23 @@
 }
 
 
++(void)saveLocal:(NSString*)key value:(NSObject*)value
+{
+    NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+    //    NSMutableArray *arr = [mySettingData objectForKey:key];
+    
+    [mySettingData setObject:value forKey:key];
+    
+    [mySettingData synchronize];
+    
+}
+
++(NSObject*)getLocal:(NSString*)key
+{
+    NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+    NSObject *data = [mySettingData objectForKey:key];
+    return  data;
+}
 
 
 @end

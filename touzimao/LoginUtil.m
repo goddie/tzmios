@@ -52,6 +52,7 @@
 {
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(void)addFollowData:(NSString*)uuid
@@ -67,6 +68,25 @@
     }
     
     [mySettingData setObject:arr forKey:@"Follow"];
+    [mySettingData synchronize];
+    
+}
+
+
++(void)deleteFollowData:(NSString*)uuid
+{
+    NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+    NSArray *a = (NSArray*)[mySettingData objectForKey:@"Follow"];
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:a];
+    
+    
+    if ([arr containsObject:uuid]) {
+        [arr removeObject:uuid];
+    }
+    
+    [mySettingData setObject:arr forKey:@"Follow"];
+    [mySettingData synchronize];
     
 }
 
@@ -82,5 +102,7 @@
     
     return NO;
 }
+
+
 
 @end

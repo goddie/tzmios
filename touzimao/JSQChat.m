@@ -23,6 +23,8 @@
     JSQMessagesBubbleImage *outgoingBubbleImageData;
     
     JSQMessagesBubbleImage *incomingBubbleImageData;
+    
+    NSTimer *timer;
 }
 
 
@@ -44,6 +46,7 @@
 {
     [super viewDidLoad];
     
+    
     self.title = @"聊天";
     messages = [NSMutableArray arrayWithCapacity:10];
     
@@ -51,6 +54,13 @@
     
     outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
     incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleRedColor]];
+    
+ 
+    
+ 
+ 
+    
+    
     
     /**
      *  You MUST set your senderId and display name
@@ -81,6 +91,7 @@
     [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
     
     
+    
     /**
      *  Customize your toolbar buttons
      *
@@ -98,7 +109,17 @@
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     
     
-    [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(timerUpdate) userInfo:nil repeats:YES];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    timer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(timerUpdate) userInfo:nil repeats:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [timer invalidate];
 }
 
 -(void)getNewMessage
@@ -263,10 +284,6 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
 
 
 

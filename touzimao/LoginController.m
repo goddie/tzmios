@@ -14,6 +14,8 @@
 #import "LoginUtil.h"
 #import "MyPageTableController.h"
 #import "RegThreeController.h"
+#import "UIViewController+Custome.h"
+#import "FindPassword.h"
 
 @interface LoginController ()
 
@@ -43,48 +45,37 @@
  
 - (IBAction)btn1Click:(id)sender {
  
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+
     NSDictionary *parameters = @{
                                  @"username":self.txtUsername.text,
                                  @"password":self.txtPassword.text
                                  };
-    [manager POST:[GlobalUtil requestURL:@"user/json/login"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"JSON: %@", responseObject);
-        NSDictionary *dict = (NSDictionary *)responseObject;
+    [self showHud];
+    
+    [self post:@"user/json/login" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
         if ([[dict objectForKey:@"code"] intValue]==1) {
             NSDictionary *data = [dict objectForKey:@"data"];
             User *model = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:data error:nil];
             //NSLog(@"%@",model);
             [LoginUtil saveLocalUser:model];
             [LoginUtil saveLocalUUID:model];
-            
-            
-//            RegThreeController *c1  = [[RegThreeController alloc] initWithNibName:@"RegThreeController" bundle:nil];
-//            [self.navigationController pushViewController:c1 animated:YES];
-            
- 
-            
             [self.navigationController popToRootViewControllerAnimated:YES];
-            
             [self dismissViewControllerAnimated:NO completion:^{
-                
             }];
- 
 
-            
         }
+        
+        [self hideHud];
         
         if ([dict objectForKey:@"msg"]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[dict objectForKey:@"msg"] message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             
             [alert show];
         }
-        
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+
     }];
+    
     
     
 }
@@ -119,4 +110,8 @@
 //    [self.txtUsername resignFirstResponder];
 //}
 
+- (IBAction)btn3Click:(id)sender {
+    FindPassword *c1 = [[FindPassword alloc] initWithNibName:@"FindPassword" bundle:nil];
+    [self.navigationController pushViewController:c1 animated:YES];
+}
 @end

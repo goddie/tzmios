@@ -78,6 +78,22 @@
 		C28BCB8C1B96C7C0002EACA2 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = C28BCB8B1B96C7C0002EACA2 /* Order.m */; };
 		C28BCBDC1B96D763002EACA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C28BCBDA1B96D763002EACA2 /* libcrypto.a */; };
 		C28BCBDD1B96D763002EACA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C28BCBDB1B96D763002EACA2 /* libssl.a */; };
+		C28C5A3C1BA3D68B00577E88 /* FindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C5A3A1BA3D68B00577E88 /* FindPassword.m */; };
+		C28C5A3D1BA3D68B00577E88 /* FindPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28C5A3B1BA3D68B00577E88 /* FindPassword.xib */; };
+		C28C5A411BA3FD6900577E88 /* UserProductList.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C5A3F1BA3FD6900577E88 /* UserProductList.m */; };
+		C28C5A421BA3FD6900577E88 /* UserProductList.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28C5A401BA3FD6900577E88 /* UserProductList.xib */; };
+		C28C5A461BA40A0200577E88 /* UserIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C5A441BA40A0200577E88 /* UserIntroduce.m */; };
+		C28C5A471BA40A0200577E88 /* UserIntroduce.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28C5A451BA40A0200577E88 /* UserIntroduce.xib */; };
+		C28C5A4B1BA41AD400577E88 /* EditUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C5A491BA41AD400577E88 /* EditUserInfo.m */; };
+		C28C5A4C1BA41AD400577E88 /* EditUserInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28C5A4A1BA41AD400577E88 /* EditUserInfo.xib */; };
+		C28C5A501BA42F9800577E88 /* UpPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C5A4E1BA42F9800577E88 /* UpPhone.m */; };
+		C28C5A511BA42F9800577E88 /* UpPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28C5A4F1BA42F9800577E88 /* UpPhone.xib */; };
+		C28C5AE61BA567A900577E88 /* UserContact.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C5AE51BA567A900577E88 /* UserContact.m */; };
+		C28C5AEA1BA5803800577E88 /* iconSearch.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C5AE71BA5803800577E88 /* iconSearch.png */; };
+		C28C5AEB1BA5803800577E88 /* iconSearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C5AE81BA5803800577E88 /* iconSearch@2x.png */; };
+		C28C5AEC1BA5803800577E88 /* iconSearch@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C5AE91BA5803800577E88 /* iconSearch@3x.png */; };
+		C28C5AF01BA58FCB00577E88 /* ChargeController.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C5AEE1BA58FCB00577E88 /* ChargeController.m */; };
+		C28C5AF11BA58FCB00577E88 /* ChargeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28C5AEF1BA58FCB00577E88 /* ChargeController.xib */; };
 		C294E0C61B7C9D1600910031 /* JSQChat.m in Sources */ = {isa = PBXBuildFile; fileRef = C294E0C41B7C9D1600910031 /* JSQChat.m */; };
 		C294E0C71B7C9D1600910031 /* JSQChat.xib in Resources */ = {isa = PBXBuildFile; fileRef = C294E0C51B7C9D1600910031 /* JSQChat.xib */; };
 		C294E0CA1B7C9DDB00910031 /* DemoModelData.m in Sources */ = {isa = PBXBuildFile; fileRef = C294E0C91B7C9DDB00910031 /* DemoModelData.m */; };
@@ -506,6 +522,29 @@
 		C28BCBD91B96D70B002EACA2 /* x509v3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509v3.h; sourceTree = "<group>"; };
 		C28BCBDA1B96D763002EACA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		C28BCBDB1B96D763002EACA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		C28C5A391BA3D68B00577E88 /* FindPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassword.h; sourceTree = "<group>"; };
+		C28C5A3A1BA3D68B00577E88 /* FindPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPassword.m; sourceTree = "<group>"; };
+		C28C5A3B1BA3D68B00577E88 /* FindPassword.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindPassword.xib; sourceTree = "<group>"; };
+		C28C5A3E1BA3FD6900577E88 /* UserProductList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProductList.h; sourceTree = "<group>"; };
+		C28C5A3F1BA3FD6900577E88 /* UserProductList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProductList.m; sourceTree = "<group>"; };
+		C28C5A401BA3FD6900577E88 /* UserProductList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProductList.xib; sourceTree = "<group>"; };
+		C28C5A431BA40A0200577E88 /* UserIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserIntroduce.h; sourceTree = "<group>"; };
+		C28C5A441BA40A0200577E88 /* UserIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserIntroduce.m; sourceTree = "<group>"; };
+		C28C5A451BA40A0200577E88 /* UserIntroduce.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserIntroduce.xib; sourceTree = "<group>"; };
+		C28C5A481BA41AD400577E88 /* EditUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditUserInfo.h; sourceTree = "<group>"; };
+		C28C5A491BA41AD400577E88 /* EditUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditUserInfo.m; sourceTree = "<group>"; };
+		C28C5A4A1BA41AD400577E88 /* EditUserInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditUserInfo.xib; sourceTree = "<group>"; };
+		C28C5A4D1BA42F9800577E88 /* UpPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpPhone.h; sourceTree = "<group>"; };
+		C28C5A4E1BA42F9800577E88 /* UpPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpPhone.m; sourceTree = "<group>"; };
+		C28C5A4F1BA42F9800577E88 /* UpPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpPhone.xib; sourceTree = "<group>"; };
+		C28C5AE41BA567A900577E88 /* UserContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserContact.h; sourceTree = "<group>"; };
+		C28C5AE51BA567A900577E88 /* UserContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserContact.m; sourceTree = "<group>"; };
+		C28C5AE71BA5803800577E88 /* iconSearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconSearch.png; sourceTree = "<group>"; };
+		C28C5AE81BA5803800577E88 /* iconSearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconSearch@2x.png"; sourceTree = "<group>"; };
+		C28C5AE91BA5803800577E88 /* iconSearch@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconSearch@3x.png"; sourceTree = "<group>"; };
+		C28C5AED1BA58FCB00577E88 /* ChargeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeController.h; sourceTree = "<group>"; };
+		C28C5AEE1BA58FCB00577E88 /* ChargeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeController.m; sourceTree = "<group>"; };
+		C28C5AEF1BA58FCB00577E88 /* ChargeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChargeController.xib; sourceTree = "<group>"; };
 		C294E0C31B7C9D1600910031 /* JSQChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQChat.h; sourceTree = "<group>"; };
 		C294E0C41B7C9D1600910031 /* JSQChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQChat.m; sourceTree = "<group>"; };
 		C294E0C51B7C9D1600910031 /* JSQChat.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQChat.xib; sourceTree = "<group>"; };
@@ -1307,6 +1346,24 @@
 				C2B35FEA1B706A3C005F84DA /* WebPageController.h */,
 				C2B35FEB1B706A3C005F84DA /* WebPageController.m */,
 				C2B35FEC1B706A3C005F84DA /* WebPageController.xib */,
+				C28C5A391BA3D68B00577E88 /* FindPassword.h */,
+				C28C5A3A1BA3D68B00577E88 /* FindPassword.m */,
+				C28C5A3B1BA3D68B00577E88 /* FindPassword.xib */,
+				C28C5A3E1BA3FD6900577E88 /* UserProductList.h */,
+				C28C5A3F1BA3FD6900577E88 /* UserProductList.m */,
+				C28C5A401BA3FD6900577E88 /* UserProductList.xib */,
+				C28C5A431BA40A0200577E88 /* UserIntroduce.h */,
+				C28C5A441BA40A0200577E88 /* UserIntroduce.m */,
+				C28C5A451BA40A0200577E88 /* UserIntroduce.xib */,
+				C28C5A481BA41AD400577E88 /* EditUserInfo.h */,
+				C28C5A491BA41AD400577E88 /* EditUserInfo.m */,
+				C28C5A4A1BA41AD400577E88 /* EditUserInfo.xib */,
+				C28C5A4D1BA42F9800577E88 /* UpPhone.h */,
+				C28C5A4E1BA42F9800577E88 /* UpPhone.m */,
+				C28C5A4F1BA42F9800577E88 /* UpPhone.xib */,
+				C28C5AED1BA58FCB00577E88 /* ChargeController.h */,
+				C28C5AEE1BA58FCB00577E88 /* ChargeController.m */,
+				C28C5AEF1BA58FCB00577E88 /* ChargeController.xib */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1331,6 +1388,9 @@
 		C29EBBB61B48D7E0008D3EC5 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C28C5AE71BA5803800577E88 /* iconSearch.png */,
+				C28C5AE81BA5803800577E88 /* iconSearch@2x.png */,
+				C28C5AE91BA5803800577E88 /* iconSearch@3x.png */,
 				C2AEDF421B8B9CA9006DE6C3 /* avatar.png */,
 				C26DCDF81B9AC91F003FB151 /* grayBtn.png */,
 				C26DCDF91B9AC91F003FB151 /* grayBtn@2x.png */,
@@ -1721,6 +1781,8 @@
 				C2B35FD41B70516C005F84DA /* Message.m */,
 				C26DCDF01B9AA9FD003FB151 /* UserProduct.h */,
 				C26DCDF11B9AA9FD003FB151 /* UserProduct.m */,
+				C28C5AE41BA567A900577E88 /* UserContact.h */,
+				C28C5AE51BA567A900577E88 /* UserContact.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1809,10 +1871,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C29EBC081B48D7E0008D3EC5 /* btn4normal.png in Resources */,
+				C28C5A421BA3FD6900577E88 /* UserProductList.xib in Resources */,
 				C2A1B8991B56C06A00921022 /* Icon-72.png in Resources */,
 				C29EBC1C1B48D7E0008D3EC5 /* iconPhone@3x.png in Resources */,
 				C29EBC131B48D7E0008D3EC5 /* iconContact2@3x.png in Resources */,
 				C29EBC071B48D7E0008D3EC5 /* btn4active@3x.png in Resources */,
+				C28C5AEA1BA5803800577E88 /* iconSearch.png in Resources */,
+				C28C5A471BA40A0200577E88 /* UserIntroduce.xib in Resources */,
 				C253148D1B7CDC3200C07192 /* RegTwoController.xib in Resources */,
 				C29EBBFA1B48D7E0008D3EC5 /* btn2active@2x.png in Resources */,
 				C29EBBFD1B48D7E0008D3EC5 /* btn2normal@2x.png in Resources */,
@@ -1836,6 +1901,7 @@
 				C2D781DB1B6DCF3500AF16C8 /* Info.plist in Resources */,
 				C2B35FEE1B706A3C005F84DA /* WebPageController.xib in Resources */,
 				C2A1B89D1B56C06A00921022 /* Icon.png in Resources */,
+				C28C5AF11BA58FCB00577E88 /* ChargeController.xib in Resources */,
 				C2B35FD21B704FBF005F84DA /* ChatController.xib in Resources */,
 				C29EBC4E1B4903BF008D3EC5 /* arrow2@3x.png in Resources */,
 				C29EBCA71B496B72008D3EC5 /* UserHeaderCell.xib in Resources */,
@@ -1851,16 +1917,19 @@
 				C29EBC9D1B496703008D3EC5 /* ConfigCell.xib in Resources */,
 				C2D7820D1B6DCF3500AF16C8 /* WebViewJavascriptBridge.js.txt in Resources */,
 				C2A1B89B1B56C06A00921022 /* Icon-76.png in Resources */,
+				C28C5A4C1BA41AD400577E88 /* EditUserInfo.xib in Resources */,
 				C29EBC111B48D7E0008D3EC5 /* iconContact2.png in Resources */,
 				C29EBBFE1B48D7E0008D3EC5 /* btn2normal@3x.png in Resources */,
 				C29EBC141B48D7E0008D3EC5 /* iconContact3.png in Resources */,
 				C29EBC0B1B48D7E0008D3EC5 /* greenBtn.png in Resources */,
+				C28C5AEC1BA5803800577E88 /* iconSearch@3x.png in Resources */,
 				C2D781351B6DCA7F00AF16C8 /* LoginController.xib in Resources */,
 				C29EBC261B48D7E0008D3EC5 /* topbg.png in Resources */,
 				C29EBC1F1B48D7E0008D3EC5 /* iconSetting@3x.png in Resources */,
 				C2A1B88E1B56BA8900921022 /* applogo.png in Resources */,
 				C29EBC1B1B48D7E0008D3EC5 /* iconPhone@2x.png in Resources */,
 				C26DCDFD1B9AC91F003FB151 /* grayBtn@3x.png in Resources */,
+				C28C5AEB1BA5803800577E88 /* iconSearch@2x.png in Resources */,
 				C29EBC121B48D7E0008D3EC5 /* iconContact2@2x.png in Resources */,
 				C29EBC891B494E68008D3EC5 /* TradeListController.xib in Resources */,
 				C2D781301B6DC82700AF16C8 /* RegController.xib in Resources */,
@@ -1884,6 +1953,7 @@
 				C29EBC011B48D7E0008D3EC5 /* btn3active@3x.png in Resources */,
 				C29EBC8E1B494E99008D3EC5 /* TradeListCell.xib in Resources */,
 				C28BCB5B1B9688D3002EACA2 /* AlipaySDK.bundle in Resources */,
+				C28C5A511BA42F9800577E88 /* UpPhone.xib in Resources */,
 				C29EBC201B48D7E0008D3EC5 /* mask1.png in Resources */,
 				C29EBC181B48D7E0008D3EC5 /* iconContact4@2x.png in Resources */,
 				C29EBC0A1B48D7E0008D3EC5 /* btn4normal@3x.png in Resources */,
@@ -1917,6 +1987,7 @@
 				C29EBC021B48D7E0008D3EC5 /* btn3normal.png in Resources */,
 				C26DCDEF1B9A5005003FB151 /* UserInfo.xib in Resources */,
 				C29EBC151B48D7E0008D3EC5 /* iconContact3@2x.png in Resources */,
+				C28C5A3D1BA3D68B00577E88 /* FindPassword.xib in Resources */,
 				C25314881B7CDB2900C07192 /* RegOneController.xib in Resources */,
 				C29EBCA21B496B0B008D3EC5 /* AccountController.xib in Resources */,
 				C29EBBFC1B48D7E0008D3EC5 /* btn2normal.png in Resources */,
@@ -2037,6 +2108,7 @@
 				C2B35FED1B706A3C005F84DA /* WebPageController.m in Sources */,
 				C2847ADA1B4AAECF003F539B /* ContactListCell.m in Sources */,
 				C253148C1B7CDC3200C07192 /* RegTwoController.m in Sources */,
+				C28C5A461BA40A0200577E88 /* UserIntroduce.m in Sources */,
 				C253147A1B7CD9C600C07192 /* IQUIWindow+Hierarchy.m in Sources */,
 				C28BCB8C1B96C7C0002EACA2 /* Order.m in Sources */,
 				C2D782051B6DCF3500AF16C8 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -2051,6 +2123,7 @@
 				C26DCDF21B9AA9FD003FB151 /* UserProduct.m in Sources */,
 				C2D781D71B6DCF3500AF16C8 /* AFURLResponseSerialization.m in Sources */,
 				C25314781B7CD9C600C07192 /* IQUIView+Hierarchy.m in Sources */,
+				C28C5A501BA42F9800577E88 /* UpPhone.m in Sources */,
 				C2779E2C1B8D32BB0083265E /* FundListScrollCell.m in Sources */,
 				C29EBC631B492587008D3EC5 /* MyFundCell.m in Sources */,
 				C2D781DE1B6DCF3500AF16C8 /* MTLModel.m in Sources */,
@@ -2072,6 +2145,7 @@
 				C2D781FE1B6DCF3500AF16C8 /* UIView+WebCacheOperation.m in Sources */,
 				C2847AD61B4AAC74003F539B /* TKAddressBook.m in Sources */,
 				C2D781DF1B6DCF3500AF16C8 /* MTLReflection.m in Sources */,
+				C28C5AF01BA58FCB00577E88 /* ChargeController.m in Sources */,
 				C2B35FD91B70529F005F84DA /* ChatCell.m in Sources */,
 				C29EBC5E1B491B09008D3EC5 /* MyPageTableCell.m in Sources */,
 				C22A6B3F1B3FA87300C0E9EE /* AppDelegate.m in Sources */,
@@ -2079,6 +2153,7 @@
 				C2D781341B6DCA7F00AF16C8 /* LoginController.m in Sources */,
 				C2D781EA1B6DCF3500AF16C8 /* MBProgressHUD.m in Sources */,
 				C294E0C61B7C9D1600910031 /* JSQChat.m in Sources */,
+				C28C5A4B1BA41AD400577E88 /* EditUserInfo.m in Sources */,
 				C2D781EC1B6DCF3500AF16C8 /* NYSegmentedControl.m in Sources */,
 				C28BCB881B96C768002EACA2 /* RSADataSigner.m in Sources */,
 				C2D781DA1B6DCF3500AF16C8 /* EXTScope.m in Sources */,
@@ -2114,10 +2189,13 @@
 				C29EBC7E1B493F0D008D3EC5 /* FundDetailController.m in Sources */,
 				C28BCB831B96C768002EACA2 /* DataSigner.m in Sources */,
 				C2D781F81B6DCF3500AF16C8 /* UIButton+WebCache.m in Sources */,
+				C28C5A3C1BA3D68B00577E88 /* FindPassword.m in Sources */,
 				C29EBC591B4919CF008D3EC5 /* MyPageTableController.m in Sources */,
+				C28C5AE61BA567A900577E88 /* UserContact.m in Sources */,
 				C2D782041B6DCF3500AF16C8 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				C2D782211B6E3A2900AF16C8 /* User.m in Sources */,
 				C2D781E51B6DCF3500AF16C8 /* NSDictionary+MTLMappingAdditions.m in Sources */,
+				C28C5A411BA3FD6900577E88 /* UserProductList.m in Sources */,
 				C2D782061B6DCF3500AF16C8 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				C2D782121B6DD17400AF16C8 /* BaseModel.m in Sources */,
 				C29EBC9C1B496703008D3EC5 /* ConfigCell.m in Sources */,

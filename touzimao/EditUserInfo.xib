@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditUserInfo">
+            <connections>
+                <outlet property="btn1" destination="xOB-uQ-K4u" id="JAZ-wA-eNI"/>
+                <outlet property="txt1" destination="e2x-gG-SHX" id="Ybc-4L-zNp"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e2x-gG-SHX">
+                    <rect key="frame" x="8" y="8" width="584" height="150"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="tZv-U9-vTI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xOB-uQ-K4u">
+                    <rect key="frame" x="149" y="184" width="302" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="46" id="DeX-1Y-M0b"/>
+                        <constraint firstAttribute="width" constant="302" id="X3g-lD-kGm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                    <state key="normal" title="提交" backgroundImage="redBtn.png">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="btn1Click:" destination="-1" eventType="touchUpInside" id="YBe-wc-cCn"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="xOB-uQ-K4u" secondAttribute="centerX" id="7Yr-p3-Rxp"/>
+                <constraint firstItem="e2x-gG-SHX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="DXz-q0-FKg"/>
+                <constraint firstItem="e2x-gG-SHX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="MpZ-wc-4CW"/>
+                <constraint firstAttribute="trailing" secondItem="e2x-gG-SHX" secondAttribute="trailing" constant="8" id="owc-tF-veA"/>
+                <constraint firstItem="xOB-uQ-K4u" firstAttribute="top" secondItem="e2x-gG-SHX" secondAttribute="bottom" constant="26" id="yIj-ld-84v"/>
+            </constraints>
+            <point key="canvasLocation" x="100" y="93"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="redBtn.png" width="302" height="46"/>
+    </resources>
+</document>

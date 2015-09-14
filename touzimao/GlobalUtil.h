@@ -130,4 +130,21 @@
 
 +(NSString*)toString:(id)value;
 
+/**
+ *  存入本地
+ *
+ *  @param key   <#key description#>
+ *  @param value <#value description#>
+ */
++(void)saveLocal:(NSString*)key value:(NSObject*)value;
+
+/**
+ *  读取本地
+ *
+ *  @param key   <#key description#>
+ *
+ *  @return <#return value description#>
+ */
++(NSObject*)getLocal:(NSString*)key;
+
 @end

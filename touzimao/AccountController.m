@@ -40,7 +40,7 @@
     
     self.title =@"账户管理";
     
-    buttons = [NSArray arrayWithObjects:@"头像管理",@"微信授权",@"修改密码", nil];
+    buttons = [NSArray arrayWithObjects:@"头像管理",@"修改密码", nil];
     
     [self bindUser];
     
@@ -281,19 +281,54 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
     
     [[AppDelegate delegate] loginPage];
+    
+    
+}
+
+-(void)openPassword
+{
+    if (!self.user) {
+        return;
+    }
+    
+    
+//    NSDictionary *parameters = @{
+//                                 @"uid":self.user.uuid
+//                                 };
+    
+    UpPassword *c1 =[[UpPassword alloc] initWithNibName:@"UpPassword" bundle:nil];
+    [self.navigationController pushViewController:c1 animated:YES];
+    
+//    
+//    [self showHud];
+//    
+//    [self post:@"user/json/uppasswordsms" params:parameters success:^(id responseObj) {
+//        NSDictionary *dict = (NSDictionary *)responseObj;
+//        
+//        if ([[dict objectForKey:@"code"] intValue]==1) {
+//            
+//            
+//            UpPassword *c1 =[[UpPassword alloc] initWithNibName:@"UpPassword" bundle:nil];
+//            [self.navigationController pushViewController:c1 animated:YES];
+//            
+//            
+//        }
+//        
+//        [self showHud];
+//    }];
+    
+
 }
 
 
 -(void)loadData
 {
     
-    if (!self.user) {
-        return;
-    }
+    NSString *uid = [self checkLogin];
     
     
     NSDictionary *parameters = @{
-                                 @"uid":self.user.uuid
+                                 @"uid":uid
                                  };
     
     
@@ -447,23 +482,23 @@
             [self.navigationController pushViewController:c1 animated:YES];
         }
         
-        //微信认证
-        if (indexPath.row == 1) {
-            
-            //构造SendAuthReq结构体
-            SendAuthReq* req = [[SendAuthReq alloc] init];
-            req.scope = @"snsapi_userinfo" ;
-            req.state = @"123" ;
-            //第三方向微信终端发送一个SendAuthReq消息结构
-            [WXApi sendReq:req];
-            
-            
-        }
+//        //微信认证
+//        if (indexPath.row == 1) {
+//            
+//            //构造SendAuthReq结构体
+//            SendAuthReq* req = [[SendAuthReq alloc] init];
+//            req.scope = @"snsapi_userinfo" ;
+//            req.state = @"123" ;
+//            //第三方向微信终端发送一个SendAuthReq消息结构
+//            [WXApi sendReq:req];
+//            
+//            
+//        }
         
-        if (indexPath.row == 2) {
+        if (indexPath.row == 1) {
     
-            UpPassword *c1 =[[UpPassword alloc] initWithNibName:@"UpPassword" bundle:nil];
-            [self.navigationController pushViewController:c1 animated:YES];
+            [self openPassword];
+ 
         }
     }
     
@@ -476,6 +511,8 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定退出吗?" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:@"确定", nil];
             alert.tag =100;
             [alert show];
+            
+
             
 
 //            LoginController *c1 = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];

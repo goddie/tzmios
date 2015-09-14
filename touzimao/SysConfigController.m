@@ -10,6 +10,7 @@
 #import "ConfigCell.h"
 #import "AccountController.h"
 #import "WebPageController.h"
+#import "UIViewController+Custome.h"
 
 @interface SysConfigController ()
 
@@ -35,11 +36,41 @@
     
     UIView *v = [UIView new];
     self.tableView.tableFooterView = v;
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    //[self initData];
+    
+}
+
+-(void)initData
+{
+    NSString *uid = [self checkLogin];
+    NSDictionary *parameters = @{
+                                 @"uid":uid
+                                 };
+    
+    [self showHud];
+    [self post:@"user/json/detail" params:parameters success:^(id responseObj) {
+        NSDictionary *dict = (NSDictionary *)responseObj;
+        
+        if ([[dict objectForKey:@"code"] intValue]==1) {
+            NSDictionary *dc = [dict objectForKey:@"data"];
+            self.user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:dc error:nil];
+            if (self.user) {
+                [self.tableView reloadData];
+            }
+        }
+        [self hideHud];
+    }];
 }
 
 #pragma mark - Table view data source

@@ -263,7 +263,7 @@ static AppDelegate *appDelegate = nil;
 #pragma mark - UITabBarController
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-    _activeController = (UINavigationController*)viewController;
+    //_activeController = (UINavigationController*)viewController;
 }
 
 

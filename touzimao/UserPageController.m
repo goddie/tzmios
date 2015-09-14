@@ -109,6 +109,8 @@
         NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:model.avatar]];
         [self.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
     }
+    
+    self.title = model.nickname;
 }
 
 -(void)img1Click:(id)sender
@@ -131,13 +133,15 @@
 - (IBAction)btnInviteClick:(id)sender {
     NSString *userId = [LoginUtil getLocalUUID];
     
+    self.btnInvite.enabled = NO;
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{
                                  @"from":userId,
                                  @"sendTo":self.uuid,
                                  @"status":@"0"
                                  };
-    
+    [self showHud];
     [manager POST:[GlobalUtil requestURL:@"follow/json/add"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //NSLog(@"JSON: %@", responseObject);
         
@@ -151,7 +155,7 @@
             
         }
         
-        
+        [self hideHud];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -182,6 +186,7 @@
 
 - (IBAction)btnFollowClick:(id)sender {
     
+    self.btnFollow.enabled =NO;
     NSString *userId = [LoginUtil getLocalUUID];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -190,7 +195,7 @@
                                  @"sendTo":self.uuid,
                                  @"status":@"1"
                                  };
-    
+    [self showHud];
     [manager POST:[GlobalUtil requestURL:@"follow/json/add"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //NSLog(@"JSON: %@", responseObject);
         
@@ -208,7 +213,7 @@
             
         }
         
-        
+        [self hideHud];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);

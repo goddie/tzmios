@@ -198,7 +198,7 @@
                 <constraint firstItem="BIP-f5-nBs" firstAttribute="leading" secondItem="CKS-fD-Cpe" secondAttribute="trailing" constant="35" id="wLp-IO-1Z9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="347" y="355.5"/>
+            <point key="canvasLocation" x="558" y="311.5"/>
         </view>
     </objects>
     <resources>

@@ -73,4 +73,9 @@
  *  有跟我的
  */
 @property (nonatomic, strong) NSNumber *hasFans;
+
+/**
+ *  订单号
+ */
+@property (nonatomic, strong) NSString *tradeNo;
 @end
