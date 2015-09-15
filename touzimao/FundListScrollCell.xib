@@ -17,10 +17,10 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAu-V6-1Kr">
                         <rect key="frame" x="0.0" y="5" width="320" height="140"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="华泰华泰A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C94-oP-9eO">
-                                <rect key="frame" x="8" y="19" width="240" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C94-oP-9eO">
+                                <rect key="frame" x="8" y="10" width="240" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="KeG-OS-Ic9"/>
+                                    <constraint firstAttribute="height" constant="30" id="KeG-OS-Ic9"/>
                                     <constraint firstAttribute="width" constant="240" id="ziA-mk-Dwh"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -37,7 +37,7 @@
                                 <color key="textColor" red="0.8862745098" green="0.14117647059999999" blue="0.08235294118" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="450105 2015-06-12 货币性 起购金额1234" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKa-Uq-oFQ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKa-Uq-oFQ">
                                 <rect key="frame" x="8" y="48" width="239" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="239" id="OUa-NE-2de"/>
@@ -47,7 +47,7 @@
                                 <color key="textColor" red="0.40392156862745099" green="0.40392156862745099" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7日年化" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGO-ms-NAc">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收益率" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGO-ms-NAc">
                                 <rect key="frame" x="255" y="51" width="57" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="RKE-Th-XWL"/>
@@ -80,7 +80,7 @@
                             <constraint firstItem="C94-oP-9eO" firstAttribute="leading" secondItem="RAu-V6-1Kr" secondAttribute="leading" constant="8" id="5vF-BU-oaV"/>
                             <constraint firstItem="UKa-Uq-oFQ" firstAttribute="leading" secondItem="RAu-V6-1Kr" secondAttribute="leading" constant="8" id="AIU-f1-xI3"/>
                             <constraint firstItem="UKa-Uq-oFQ" firstAttribute="top" secondItem="C94-oP-9eO" secondAttribute="bottom" constant="8" id="GOW-Y5-tTw"/>
-                            <constraint firstItem="C94-oP-9eO" firstAttribute="top" secondItem="RAu-V6-1Kr" secondAttribute="top" constant="19" id="NJh-kA-agL"/>
+                            <constraint firstItem="C94-oP-9eO" firstAttribute="top" secondItem="RAu-V6-1Kr" secondAttribute="top" constant="10" id="NJh-kA-agL"/>
                             <constraint firstItem="IGO-ms-NAc" firstAttribute="top" secondItem="ZtL-q1-Qes" secondAttribute="bottom" constant="11" id="TyR-bB-O51"/>
                             <constraint firstAttribute="trailing" secondItem="IGO-ms-NAc" secondAttribute="trailing" constant="8" id="UJ0-Fr-Bzv"/>
                             <constraint firstItem="eIW-MX-Tfb" firstAttribute="leading" secondItem="RAu-V6-1Kr" secondAttribute="leading" id="X4s-j6-A44"/>

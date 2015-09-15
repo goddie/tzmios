@@ -15,6 +15,7 @@
 #import "UIImageView+WebCache.h"
 #import "AFNetworking.h"
 #import "UserContact.h"
+#import "Follow.h"
 
 
 @interface ContactListController ()
@@ -25,7 +26,10 @@
 {
     NSMutableArray *addressBookTemp;
     NSNumber *type;
+    //装UserContact
     NSMutableArray *dataArr;
+    //装Follow
+    NSMutableArray *dataArr2;
     NSNumber *curPage;
     UISearchBar *sBar;
     NSString *key;
@@ -64,6 +68,7 @@
     
     
     dataArr = [NSMutableArray arrayWithCapacity:10];
+    dataArr2 = [NSMutableArray arrayWithCapacity:10];
     curPage = [NSNumber numberWithInteger:1];
     
     
@@ -88,6 +93,7 @@
 -(void)refresh
 {
     [dataArr removeAllObjects];
+    [dataArr2 removeAllObjects];
     curPage = [NSNumber numberWithInt:1];
     [self loadData];
 }
@@ -222,10 +228,10 @@
             
             break;
         case 1:
-            type = [NSNumber numberWithInt:2];
+            type = [NSNumber numberWithInt:1];
             break;
         case 2:
-            type = [NSNumber numberWithInt:1];
+            type = [NSNumber numberWithInt:2];
             break;
     }
 //    [self refreshControl];
@@ -233,7 +239,7 @@
 //    [self updateContact];
     
     [dataArr removeAllObjects];
-    
+    [dataArr2 removeAllObjects];
     [self refresh];
 }
 
@@ -241,33 +247,72 @@
 {
     NSString *uid = [self checkLogin];
     
-    NSDictionary *parameters = @{
-                                 @"p":curPage,
-                                 @"uid":uid,
-                                 @"type":type
-                                 };
-    [self showHud];
-    [self post:@"usercontact/json/list" params:parameters success:^(id responseObj) {
-        NSDictionary *dict = (NSDictionary *)responseObj;
-        if ([[dict objectForKey:@"code"] intValue]==1) {
-            NSArray *arr = [dict objectForKey:@"data"];
-            
-            NSError *err = nil;
-            
-            for (NSDictionary *dc in arr) {
-                UserContact *model = [MTLJSONAdapter modelOfClass:[UserContact class] fromJSONDictionary:dc error:&err];
-                if(model)
-                {
-                    [dataArr addObject:model];
+    if ([type integerValue] ==0) {
+        
+        NSDictionary *parameters = @{
+                                     @"p":curPage,
+                                     @"uid":uid,
+                                     @"type":type
+                                     };
+        [self showHud];
+        [self post:@"usercontact/json/list" params:parameters success:^(id responseObj) {
+            NSDictionary *dict = (NSDictionary *)responseObj;
+            if ([[dict objectForKey:@"code"] intValue]==1) {
+                NSArray *arr = [dict objectForKey:@"data"];
+                
+                NSError *err = nil;
+                
+                for (NSDictionary *dc in arr) {
+                    UserContact *model = [MTLJSONAdapter modelOfClass:[UserContact class] fromJSONDictionary:dc error:&err];
+                    if(model)
+                    {
+                        [dataArr addObject:model];
+                    }
+                    
+                    //NSLog(@"%@",err);
                 }
                 
-                //NSLog(@"%@",err);
             }
-            
-        }
-        [self.tableView reloadData];
-        [self stopAnimation];
-    }];
+            [self.tableView reloadData];
+            [self stopAnimation];
+        }];
+        
+    }
+    
+    if ([type integerValue] == 1||[type integerValue] == 2) {
+    
+        NSDictionary *parameters = @{
+                                     @"p":curPage,
+                                     @"uid":uid,
+                                     @"type":type
+                                     };
+        [self showHud];
+        [self post:@"follow/json/list" params:parameters success:^(id responseObj) {
+            NSDictionary *dict = (NSDictionary *)responseObj;
+            if ([[dict objectForKey:@"code"] intValue]==1) {
+                NSArray *arr = [dict objectForKey:@"data"];
+                
+                NSError *err = nil;
+                
+                for (NSDictionary *dc in arr) {
+                    
+                    
+                    Follow *model = [MTLJSONAdapter modelOfClass:[Follow class] fromJSONDictionary:dc error:&err];
+                    if(model)
+                    {
+                        [dataArr2 addObject:model];
+                    }
+                    
+                    //NSLog(@"%@",err);
+                }
+                
+            }
+            [self.tableView reloadData];
+            [self stopAnimation];
+        }];
+
+    }
+
 }
 
 
@@ -483,10 +528,68 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  
-    return dataArr.count;
+    if ([type integerValue]==0) {
+         return dataArr.count;
+    }
+    return dataArr2.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    if ([type integerValue]==0) {
+    
+        static NSString *CellIdentifier = @"ContactListCell";
+        ContactListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if(cell==nil){
+            
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        UserContact *userContact = (UserContact*)[dataArr objectAtIndex:indexPath.row];
+        User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:userContact.contact error:nil];
+        
+        
+        if (user.totalRate) {
+            NSString *str = [NSString stringWithFormat:@"%.f%%",[user.totalRate floatValue] * 100];
+            cell.txtPercent.text = str;
+        }
+        
+        //TKAddressBook *book = [addressBookTemp objectAtIndex:indexPath.row];
+        cell.txtName.text = [NSString stringWithFormat:@"%@ (%@)",userContact.name,user.nickname];
+        if (user.avatar) {
+            NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:user.avatar]];
+            [cell.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+        }
+        
+        
+        NSInteger isFan  = [userContact.isFan integerValue];
+        NSInteger isFollow = [userContact.isFollow integerValue];
+        
+        //互不关注
+        if (isFan==0 && isFollow==0) {
+            cell.img2.image = [UIImage imageNamed:@"iconContact3.png"];
+        }
+        
+        //互相关注
+        if (isFan==1 && isFollow==1) {
+            cell.img2.image = [UIImage imageNamed:@"iconContact1.png"];
+        }
+        
+        //关注我
+        if (isFan==1 && isFollow==0) {
+            cell.img2.image = [UIImage imageNamed:@"iconContact2.png"];
+        }
+        
+        //被我关注
+        if (isFan==0 && isFollow==1) {
+            cell.img2.image = [UIImage imageNamed:@"iconContact4.png"];
+        }
+
+        return cell;
+    }
+    
     static NSString *CellIdentifier = @"ContactListCell";
     ContactListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(cell==nil){
@@ -495,9 +598,17 @@
         cell = [nib objectAtIndex:0];
     }
     
-    UserContact *userContact = (UserContact*)[dataArr objectAtIndex:indexPath.row];
-    User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:userContact.contact error:nil];
+    Follow *follow = (Follow*)[dataArr2 objectAtIndex:indexPath.row];
     
+    
+    User *user;
+    if ([type integerValue]==1) {
+        user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:follow.sendTo error:nil];
+    }
+    
+    if ([type integerValue]==2) {
+        user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:follow.from error:nil];
+    }
     
     if (user.totalRate) {
         NSString *str = [NSString stringWithFormat:@"%.f%%",[user.totalRate floatValue] * 100];
@@ -505,15 +616,14 @@
     }
     
     //TKAddressBook *book = [addressBookTemp objectAtIndex:indexPath.row];
-    cell.txtName.text = [NSString stringWithFormat:@"%@ (%@)",userContact.name,user.nickname];
+    cell.txtName.text = [NSString stringWithFormat:@"%@",user.nickname];
     if (user.avatar) {
         NSURL *imagePath1 = [NSURL URLWithString:[baseURL2 stringByAppendingString:user.avatar]];
         [cell.img1 sd_setImageWithURL:imagePath1 placeholderImage:[UIImage imageNamed:@"avatar.png"]];
     }
     
-    
-    NSInteger isFan  = [userContact.isFan integerValue];
-    NSInteger isFollow = [userContact.isFollow integerValue];
+    NSInteger isFan = [follow.isFan integerValue];
+    NSInteger isFollow = [follow.isFollow integerValue];
     
     //互不关注
     if (isFan==0 && isFollow==0) {
@@ -534,6 +644,7 @@
     if (isFan==0 && isFollow==1) {
         cell.img2.image = [UIImage imageNamed:@"iconContact4.png"];
     }
+
     
     return cell;
 }
@@ -547,9 +658,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ContactListCell *cell = (ContactListCell*)[tableView cellForRowAtIndexPath:indexPath];
     
+    if ([type integerValue]==0) {
+        UserContact *userContact = (UserContact*)[dataArr objectAtIndex:indexPath.row];
+        User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:userContact.contact error:nil];
+        
+        //    User *user  = [dataArr objectAtIndex:indexPath.row];
+        
+        UserPageTableController *controller = [[UserPageTableController alloc] initWithNibName:@"UserPageTableController" bundle:nil];
+        controller.title = cell.txtName.text;
+        controller.uuid = user.uuid;
+        [self.navigationController pushViewController:controller animated:YES];
+        return;
+    }
     
-    UserContact *userContact = (UserContact*)[dataArr objectAtIndex:indexPath.row];
-    User *user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:userContact.contact error:nil];
+    Follow *follow = (Follow*)[dataArr2 objectAtIndex:indexPath.row];
+    
+    User *user;
+    if ([type integerValue]==1) {
+        user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:follow.sendTo error:nil];
+    }
+    
+    if ([type integerValue]==2) {
+        user = [MTLJSONAdapter modelOfClass:[User class] fromJSONDictionary:follow.from error:nil];
+    }
+
+    
+ 
     
 //    User *user  = [dataArr objectAtIndex:indexPath.row];
 

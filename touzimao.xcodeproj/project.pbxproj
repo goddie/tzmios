@@ -244,6 +244,7 @@
 		C2B35FDF1B7055CC005F84DA /* ChatSendController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B35FDD1B7055CC005F84DA /* ChatSendController.xib */; };
 		C2B35FED1B706A3C005F84DA /* WebPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B35FEB1B706A3C005F84DA /* WebPageController.m */; };
 		C2B35FEE1B706A3C005F84DA /* WebPageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B35FEC1B706A3C005F84DA /* WebPageController.xib */; };
+		C2D2C2B51BA69D6600911708 /* Follow.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D2C2B41BA69D6600911708 /* Follow.m */; };
 		C2D7812F1B6DC82700AF16C8 /* RegController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D7812D1B6DC82700AF16C8 /* RegController.m */; };
 		C2D781301B6DC82700AF16C8 /* RegController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2D7812E1B6DC82700AF16C8 /* RegController.xib */; };
 		C2D781341B6DCA7F00AF16C8 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D781321B6DCA7F00AF16C8 /* LoginController.m */; };
@@ -736,6 +737,8 @@
 		C2B35FEA1B706A3C005F84DA /* WebPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageController.h; sourceTree = "<group>"; };
 		C2B35FEB1B706A3C005F84DA /* WebPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageController.m; sourceTree = "<group>"; };
 		C2B35FEC1B706A3C005F84DA /* WebPageController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebPageController.xib; sourceTree = "<group>"; };
+		C2D2C2B31BA69D6600911708 /* Follow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Follow.h; sourceTree = "<group>"; };
+		C2D2C2B41BA69D6600911708 /* Follow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Follow.m; sourceTree = "<group>"; };
 		C2D7812C1B6DC82700AF16C8 /* RegController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegController.h; sourceTree = "<group>"; };
 		C2D7812D1B6DC82700AF16C8 /* RegController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegController.m; sourceTree = "<group>"; };
 		C2D7812E1B6DC82700AF16C8 /* RegController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegController.xib; sourceTree = "<group>"; };
@@ -1783,6 +1786,8 @@
 				C26DCDF11B9AA9FD003FB151 /* UserProduct.m */,
 				C28C5AE41BA567A900577E88 /* UserContact.h */,
 				C28C5AE51BA567A900577E88 /* UserContact.m */,
+				C2D2C2B31BA69D6600911708 /* Follow.h */,
+				C2D2C2B41BA69D6600911708 /* Follow.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2068,6 +2073,7 @@
 				C29EBC491B490040008D3EC5 /* MyPageController.m in Sources */,
 				C2D782031B6DCF3500AF16C8 /* TPKeyboardAvoidingTableView.m in Sources */,
 				C28BCB861B96C768002EACA2 /* NSDataEx.m in Sources */,
+				C2D2C2B51BA69D6600911708 /* Follow.m in Sources */,
 				C29EBC3A1B48F66B008D3EC5 /* FundListController.m in Sources */,
 				C29EBC921B49532B008D3EC5 /* UserPageTableController.m in Sources */,
 				C2B35FD11B704FBF005F84DA /* ChatController.m in Sources */,

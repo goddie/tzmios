@@ -127,7 +127,7 @@
 
 
 - (IBAction)btn1Click:(id)sender {
-    if(!self.txt1.text)
+    if(self.txt1.text.length==0)
     {
         return;
     }
